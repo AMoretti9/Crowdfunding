@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Sign In .::. Crowdfunding</title>
+</head>
+<body>
+
+
+	<div style="text-align: center">
+		<h3>Choose your username and password and sign in</h3>
+		<br>
+
+		<form name="user_form" action="#" th:action="@{/save-user}"
+			th:object="${user}" method="post">
+			<input type="hidden" th:field="*{id}">
+			<input type="hidden" th:value="${1}" th:name="role" th:id="role"/>
+			<table
+				style="text-align: center; margin-left: auto; margin-right: auto;">
+				<tbody>
+					<tr>
+						<th style="text-align: left;">Username:</th>
+						<td style="text-align: center;"><input type="text"
+							th:field="*{username}" required></td>
+					</tr>
+					<tr>
+						<th style="text-align: left;">Password:</th>
+						<td style="text-align: center;"><input id="password"
+							name="password" type="password" pattern="^\S{6,}$"
+							onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have at least 6 characters' : ''); if(this.checkValidity()) form.password_two.pattern = this.value;"
+							th:field="*{password}" required></td>
+					</tr>
+					<tr>
+						<th style="text-align: left;">Confirm Password:</th>
+						<td style="text-align: center;"><input id="password_two"
+							name="password_two" type="password" pattern="^\S{6,}$"
+							onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Password doesn't match' : '');"
+							required></td>
+					</tr>
+				</tbody>
+			</table>
+			
+			<br>
+			<button type="submit" name="btn_save">Register!</button>
+		</form>
+	</div>
+
+	<!--  
+		<form name="user_form" action="#" th:action="@{/save}"
+			th:object="${user}" method="post">
+			<input type="hidden" th:field="*{id}">
+			<p>
+				Name: <input type="text" th:field="*{username}">
+			</p>
+			Password: <input id="password" name="password" type="password"
+				pattern="^\S{6,}$"
+				onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have at least 6 characters' : ''); if(this.checkValidity()) form.password_two.pattern = this.value;"
+				th:field="*{username}" required> <br> 
+				Confirm password: <input id="password_two" name="password_two" type="password"
+				pattern="^\S{6,}$"
+				onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Password doesn't match' : '');"
+				required> 
+				<input type="hidden" th:field="*{role}" value="1">
+
+			<br>
+			<button type="submit" name="btn_save">Register!</button>
+
+		</form>
+		-->
+
+</body>
+</html>
