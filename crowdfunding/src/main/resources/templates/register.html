@@ -13,8 +13,8 @@
 
 		<form name="user_form" action="#" th:action="@{/save-user}"
 			th:object="${user}" method="post">
-			<input type="hidden" th:field="*{id}">
-			<input type="hidden" th:value="${1}" th:name="role" th:id="role"/>
+			<input type="hidden" th:field="*{id}"> <input type="hidden"
+				th:value="${1}" th:name="role" th:id="role" />
 			<table
 				style="text-align: center; margin-left: auto; margin-right: auto;">
 				<tbody>
@@ -34,15 +34,23 @@
 						<th style="text-align: left;">Confirm Password:</th>
 						<td style="text-align: center;"><input id="password_two"
 							name="password_two" type="password" pattern="^\S{6,}$"
-							onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Password doesn't match' : '');"
+							onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Match the request format' : '');"
 							required></td>
 					</tr>
 				</tbody>
 			</table>
-			
+
 			<br>
 			<button type="submit" name="btn_save">Register!</button>
 		</form>
+		
+		<br>
+
+		<span th:text="${messageRegister}"></span>
+		<!--<div th:unless="${messageRegister.empty}">
+			<span th:text="${messageRegister}"></span>
+		</div>-->
+
 	</div>
 
 	<!--  

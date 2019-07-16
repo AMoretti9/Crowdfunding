@@ -15,18 +15,25 @@ public class ApplicationWebController {
 	@Autowired
 	private UserService userService;
 	
+	
 	@GetMapping("/register")
 	public String register(Model model) {
 		model.addAttribute("user", new User());
+		model.addAttribute("messageRegister", "");
 		return "register";
 	}
 	
 	@PostMapping("/save-user")
-	public String saveUser(User user) {
+	public String saveUser(User user, Model model) {
 		final Long id = user.getId();
-		if (id == null)
+		final User presentUsername = userService.getUserByUsername(user.getUsername());
+		if (id == null && presentUsername == null) {
 			userService.insertNewUser(user);
-		return "redirect:/";
+			return "redirect:/";
+		} else {
+			model.addAttribute("messageRegister", "Username already in use! Please change it");
+			return "register";
+		}
 	}
 	
 }

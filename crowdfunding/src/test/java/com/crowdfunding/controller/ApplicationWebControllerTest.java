@@ -3,6 +3,7 @@ package com.crowdfunding.controller;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -73,12 +74,16 @@ public class ApplicationWebControllerTest {
 	public void register_newUser() throws Exception {
 		mvc.perform(get("/register"))
 			.andExpect(view().name("register"))
-			.andExpect(model().attribute("user", new User()));
+			.andExpect(model().attribute("user", new User()))
+			.andExpect(model().attribute("messageRegister", ""));
 			verifyZeroInteractions(userService);
 	}
 	
 	@Test
-	public void test_PostUserWithoutId_ShouldInsertNewUser() throws Exception {
+	public void test_PostUserWithoutIdAndNotPresentUsername_ShouldInsertNewUser() throws Exception {
+		
+		when(userService.getUserByUsername("newUsername")).thenReturn(null);
+		
 		mvc.perform(post("/save-user")
 				.param("username", "test")
 				.param("password", "abc123")
@@ -87,6 +92,20 @@ public class ApplicationWebControllerTest {
 		verify(userService).insertNewUser(new User(null, "test", "abc123", 1));
 	}
 	
+	@Test
+	public void test_PostUserWithoutIdAndAlreadyPresentUsername_ShouldNotInsertNewUser() throws Exception {
+		User userInserted = new User(1L, "namePresent", "mypass", 1);
+		
+		when(userService.getUserByUsername("namePresent")).thenReturn(userInserted);
+		
+		mvc.perform(post("/save-user")
+				.param("username", "namePresent")
+				.param("password", "newpass")
+				.param("role", "1"))
+				.andExpect(model().attribute("messageRegister", "Username already in use! Please change it"))
+			.andExpect(view().name("register"));
+		
+	}
 	
 	
 
