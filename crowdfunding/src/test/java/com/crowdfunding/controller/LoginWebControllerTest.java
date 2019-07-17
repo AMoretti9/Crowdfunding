@@ -26,8 +26,8 @@ import com.crowdfunding.service.UserService;
 import com.crowdfunding.model.User;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(controllers = ApplicationWebController.class)
-public class ApplicationWebControllerTest {
+@WebMvcTest(controllers = LoginWebController.class)
+public class LoginWebControllerTest {
 
 	@Autowired
 	private MockMvc mvc;

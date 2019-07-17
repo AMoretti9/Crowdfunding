@@ -5,12 +5,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.crowdfunding.model.User;
 import com.crowdfunding.service.UserService;
 
 @Controller
-public class ApplicationWebController {
+@RequestMapping("/")
+public class LoginWebController {
 
 	@Autowired
 	private UserService userService;
