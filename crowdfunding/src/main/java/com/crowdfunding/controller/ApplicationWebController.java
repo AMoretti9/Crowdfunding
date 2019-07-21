@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -12,11 +13,32 @@ import com.crowdfunding.service.UserService;
 
 @Controller
 @RequestMapping("/")
-public class LoginWebController {
+public class ApplicationWebController {
 
 	@Autowired
 	private UserService userService;
 	
+	@GetMapping("/")
+	public String index(Model model) {
+		return "index";
+	}
+	
+	@PostMapping("/login-user")
+	public String loginUser(Model model, @ModelAttribute("username") String username,
+							@ModelAttribute("password") String password) {
+		if (userService.getUserByUsernameAndPassword(username, password) != null) {
+			
+			return "home";
+		} else {
+			model.addAttribute("messageLogin", "Login incorrect or Account not present");
+			return "index";
+		}
+	}
+	
+	@GetMapping("/action/logout")
+	public String actionLogout(Model model) {
+		return "index";
+	}
 	
 	@GetMapping("/register")
 	public String register(Model model) {
@@ -37,5 +59,6 @@ public class LoginWebController {
 			return "register";
 		}
 	}
+
 	
 }

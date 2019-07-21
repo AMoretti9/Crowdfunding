@@ -20,14 +20,15 @@ import org.springframework.test.web.ModelAndViewAssert;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.gargoylesoftware.htmlunit.WebClient;
+import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
 import com.crowdfunding.service.UserService;
 import com.crowdfunding.model.User;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(controllers = LoginWebController.class)
-public class LoginWebControllerTest {
+@WebMvcTest(controllers = ApplicationWebController.class)
+public class ApplicationWebControllerTest {
 
 	@Autowired
 	private MockMvc mvc;
@@ -38,16 +39,20 @@ public class LoginWebControllerTest {
 	@MockBean
 	private UserService userService;
 	
-	//HTML Unit Test
+	////////////////////
+	// HTML Unit Test //
+	////////////////////
 	
 	@Test
-	public void testHomePageTitle() throws Exception {
+	public void testHomePage() throws Exception {
 		HtmlPage page = webClient.getPage("/");
 		assertThat(page.getTitleText()).isEqualTo("Login .::. Crowdfunding");
+		assertThat(page.getBody().getTextContent())
+		.doesNotContain("Login incorrect or Account not present");
 	}
 	
 	@Test
-	public void test_HomePage_ShouldProvideLinkForRegister() throws Exception {
+	public void test_IndexPage_ShouldProvideLinkForRegister() throws Exception {
 		HtmlPage page = this.webClient.getPage("/");
 		
 		assertThat(page
@@ -56,7 +61,35 @@ public class LoginWebControllerTest {
 				).isEqualTo("/register");
 	}
 	
-	//Web Controller Unit Test
+	@Test
+	public void test_RegisterPage_ShouldNotShowMessage() throws Exception {
+		HtmlPage page = this.webClient.getPage("/register");
+		assertThat(page.getTitleText()).isEqualTo("Sign In .::. Crowdfunding");
+		assertThat(page.getBody().getTextContent())
+		.doesNotContain("Username already in use! Please change it");
+	}
+	
+	
+	@Test
+	public void test_insertNewUser() throws Exception {
+		HtmlPage page = this.webClient.getPage("/register");
+		final HtmlForm form = page.getFormByName("user_form");
+		form.getInputByName("username").setValueAttribute("newName");
+		form.getInputByName("password").setValueAttribute("newPass");
+		form.getButtonByName("btn_save").click();
+		
+		when(userService.getUserByUsername("newName")).thenReturn(null);
+		
+		assertThat(page.getBody().getTextContent())
+		.doesNotContain("Username already in use! Please change it");
+		
+	}
+	
+	
+	
+	//////////////////////////////
+	//   Web Controller Test    //
+	//////////////////////////////
 	
 	@Test
 	public void testStatus200() throws Exception {
@@ -71,12 +104,61 @@ public class LoginWebControllerTest {
 	}
 	
 	@Test
+	public void testRegisterStatus200() throws Exception {
+		mvc.perform(get("/register")).
+			andExpect(status().is2xxSuccessful());
+	}
+	
+	@Test
+	public void testReturnRegisterView() throws Exception {
+		ModelAndViewAssert.assertViewName(mvc.perform(get("/register"))
+				.andReturn().getModelAndView(), "register");
+	}
+	
+	@Test
+	public void testLogoutStatus200() throws Exception {
+		mvc.perform(get("/action/logout")).
+			andExpect(status().is2xxSuccessful());
+	}
+	
+	@Test
+	public void testReturnLogoutAction() throws Exception {
+		ModelAndViewAssert.assertViewName(mvc.perform(get("/action/logout"))
+				.andReturn().getModelAndView(), "index");
+	}
+	
+	@Test
 	public void register_newUser() throws Exception {
 		mvc.perform(get("/register"))
 			.andExpect(view().name("register"))
 			.andExpect(model().attribute("user", new User()))
 			.andExpect(model().attribute("messageRegister", ""));
 			verifyZeroInteractions(userService);
+	}
+	
+	@Test
+	public void test_PostUserWithUsernameAndPasswordPresent_ShouldLogin () throws Exception {
+		User userPresent = new User(1L, "aName", "thePass", 1);
+		
+		when(userService.getUserByUsernameAndPassword("aName", "thePass"))
+			.thenReturn(userPresent);
+		
+		mvc.perform(post("/login-user")
+				.param("username", "aName")
+				.param("password", "thePass"))
+			.andExpect(view().name("home"));
+	}
+	
+	@Test
+	public void test_PostUserWithUsernameAndPasswordNotPresent_ShouldNotLogin () throws Exception {
+		when(userService.getUserByUsernameAndPassword("aName", "thePass"))
+			.thenReturn(null);
+		
+		mvc.perform(post("/login-user")
+				.param("username", "aName")
+				.param("password", "thePass"))
+				.andExpect(model().attribute("messageLogin", "Login incorrect or Account not present"))
+			.andExpect(view().name("index"));
 	}
 	
 	@Test
@@ -92,6 +174,7 @@ public class LoginWebControllerTest {
 		verify(userService).insertNewUser(new User(null, "test", "abc123", 1));
 	}
 	
+	
 	@Test
 	public void test_PostUserWithoutIdAndAlreadyPresentUsername_ShouldNotInsertNewUser() throws Exception {
 		User userInserted = new User(1L, "namePresent", "mypass", 1);
@@ -106,8 +189,6 @@ public class LoginWebControllerTest {
 			.andExpect(view().name("register"));
 		
 	}
-	
-	
 
 
 }

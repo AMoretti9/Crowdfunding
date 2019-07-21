@@ -55,5 +55,21 @@ public class UserServiceTest {
 		inOrder.verify(toSave).setId(null);
 		inOrder.verify(userRepo).save(toSave);
 	}
+	
+	@Test
+	public void test_getUserByUsernameAndPassword_NotFound() {
+		when(userRepo.findByUsernameAndPassword(anyString(), anyString()))
+			.thenReturn(null);
+		assertThat(userService.getUserByUsernameAndPassword("aName", "aPassword")).isNull();
+	}
+	
+	@Test
+	public void test_getUserByUsernameAndPassword_Found() {
+		User user = new User(1L, "name", "password", 1);
+		when(userRepo.findByUsernameAndPassword("name", "password"))
+			.thenReturn(user);
+		assertThat(userService.getUserByUsernameAndPassword("name", "password"))
+			.isSameAs(user);
+	}
 
 }

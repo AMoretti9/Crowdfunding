@@ -24,5 +24,13 @@ public class UserRepoTest {
 		User found = userRepo.findByUsername("name");
 		assertThat(found).isEqualTo(saved);
 	}
+	
+	@Test
+	public void test_FindUserByUsernameAndPassword() {
+		User user = new User(null, "name", "password", 1);
+		User saved = userRepo.save(user);
+		User found = userRepo.findByUsernameAndPassword("name", "password");
+		assertThat(found).isEqualTo(saved);
+	}
 
 }

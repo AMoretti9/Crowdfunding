@@ -8,6 +8,23 @@
 	<div style="text-align: center">
 		<h2>Welcome on the Crowdfunding platform</h2>
 		<hr />
+		<br>
+		<form name="userLogin_form" action="#" th:action="@{/login-user}" method="post">
+			<div>
+				Username:  <input type="text" id="username" name="username" required>
+			</div>
+			<div>
+				Password:  <input type="password" id="password" name="password" required>
+			</div>
+			<div>
+				<input type="submit" value="Login">
+			</div>
+		</form>
+		<br>
+		<span th:text="${messageLogin}"></span>
+		<br>
+		<br>
+		
 			<a th:href="@{/register}">Register</a>
 		</div>
 </body>

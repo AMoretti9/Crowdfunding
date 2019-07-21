@@ -26,14 +26,14 @@
 					<tr>
 						<th style="text-align: left;">Password:</th>
 						<td style="text-align: center;"><input id="password"
-							name="password" type="password" pattern="^\S{6,}$"
+							type="password" pattern="^\S{6,}$"
 							onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have at least 6 characters' : ''); if(this.checkValidity()) form.password_two.pattern = this.value;"
 							th:field="*{password}" required></td>
 					</tr>
 					<tr>
 						<th style="text-align: left;">Confirm Password:</th>
 						<td style="text-align: center;"><input id="password_two"
-							name="password_two" type="password" pattern="^\S{6,}$"
+							type="password" pattern="^\S{6,}$"
 							onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Match the request format' : '');"
 							required></td>
 					</tr>
@@ -43,38 +43,10 @@
 			<br>
 			<button type="submit" name="btn_save">Register!</button>
 		</form>
-		
-		<br>
 
-		<span th:text="${messageRegister}"></span>
-		<!--<div th:unless="${messageRegister.empty}">
-			<span th:text="${messageRegister}"></span>
-		</div>-->
+		<br> <span th:text="${messageRegister}"></span>
 
 	</div>
-
-	<!--  
-		<form name="user_form" action="#" th:action="@{/save}"
-			th:object="${user}" method="post">
-			<input type="hidden" th:field="*{id}">
-			<p>
-				Name: <input type="text" th:field="*{username}">
-			</p>
-			Password: <input id="password" name="password" type="password"
-				pattern="^\S{6,}$"
-				onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have at least 6 characters' : ''); if(this.checkValidity()) form.password_two.pattern = this.value;"
-				th:field="*{username}" required> <br> 
-				Confirm password: <input id="password_two" name="password_two" type="password"
-				pattern="^\S{6,}$"
-				onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Password doesn't match' : '');"
-				required> 
-				<input type="hidden" th:field="*{role}" value="1">
-
-			<br>
-			<button type="submit" name="btn_save">Register!</button>
-
-		</form>
-		-->
 
 </body>
 </html>
