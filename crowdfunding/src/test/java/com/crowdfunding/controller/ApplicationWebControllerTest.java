@@ -10,6 +10,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.util.HashMap;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,6 +87,38 @@ public class ApplicationWebControllerTest {
 		
 	}
 	
+	@Test
+	public void test_loginSuccesful() throws Exception {
+		
+		User userPresent = new User(1L, "aName", "thePass", 1);
+		
+		HtmlPage page = this.webClient.getPage("/");
+		final HtmlForm form = page.getFormByName("userLogin_form");
+		form.getInputByName("username").setValueAttribute("aName");
+		form.getInputByName("password").setValueAttribute("thePass");
+		
+		when(userService.getUserByUsernameAndPassword("aName", "thePass"))
+			.thenReturn(userPresent);
+		
+		assertThat(page.getBody().getTextContent())
+		.doesNotContain("Login incorrect or Account not present");
+		
+	}
+	
+	@Test
+	public void test_loginIncorrect() throws Exception {
+				
+		HtmlPage page = this.webClient.getPage("/");
+		final HtmlForm form = page.getFormByName("userLogin_form");
+		form.getInputByName("username").setValueAttribute("aName");
+		form.getInputByName("password").setValueAttribute("thePass");
+		
+		when(userService.getUserByUsernameAndPassword("aName", "thePass"))
+			.thenReturn(null);
+		
+		assertThat(page.getTitleText()).isEqualTo("Login .::. Crowdfunding");
+		
+	}
 	
 	
 	//////////////////////////////
@@ -128,6 +162,36 @@ public class ApplicationWebControllerTest {
 	}
 	
 	@Test
+	public void testReturnHomePageAction() throws Exception {
+		User activeUser = new User(1L, "myName", "password", 1);
+		
+		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+		
+		sessionattr.put("user", activeUser);
+		
+		mvc.perform(get("/action/home").sessionAttrs(sessionattr))
+		.andExpect(view().name("home"))
+		.andExpect(model().attributeExists("user"))
+		.andExpect(model().attribute("welcomeUser", "Welcome, myName"))
+		.andExpect(model().attribute("MODE", "MODE_HOME"));
+	}
+	
+	@Test
+	public void testMyFundsPage() throws Exception {
+		User activeUser = new User(1L, "myName", "password", 1);
+		
+		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+		
+		sessionattr.put("user", activeUser);
+		
+		mvc.perform(get("/my-funds").sessionAttrs(sessionattr))
+		.andExpect(view().name("home"))
+		.andExpect(model().attributeExists("user"))
+		.andExpect(model().attribute("MyFundsUser", "MY FUNDS  -  (Personal ID: 1, Username: myName)"))
+		.andExpect(model().attribute("MODE", "MODE_MYFUNDS"));
+	}
+	
+	@Test
 	public void register_newUser() throws Exception {
 		mvc.perform(get("/register"))
 			.andExpect(view().name("register"))
@@ -138,14 +202,16 @@ public class ApplicationWebControllerTest {
 	
 	@Test
 	public void test_PostUserWithUsernameAndPasswordPresent_ShouldLogin () throws Exception {
-		User userPresent = new User(1L, "aName", "thePass", 1);
+		User user1 = new User(1L, "NameOne", "PassOne", 1);
 		
-		when(userService.getUserByUsernameAndPassword("aName", "thePass"))
-			.thenReturn(userPresent);
+		when(userService.getUserByUsernameAndPassword("NameOne", "PassOne"))
+			.thenReturn(user1);
 		
 		mvc.perform(post("/login-user")
-				.param("username", "aName")
-				.param("password", "thePass"))
+				.param("username", "NameOne")
+				.param("password", "PassOne"))
+				.andExpect(model().attribute("MODE", "MODE_HOME"))
+				.andExpect(model().attribute("welcomeUser", "Welcome, NameOne"))
 			.andExpect(view().name("home"));
 	}
 	
@@ -154,6 +220,9 @@ public class ApplicationWebControllerTest {
 		when(userService.getUserByUsernameAndPassword("aName", "thePass"))
 			.thenReturn(null);
 		
+		
+
+				
 		mvc.perform(post("/login-user")
 				.param("username", "aName")
 				.param("password", "thePass"))
@@ -165,6 +234,7 @@ public class ApplicationWebControllerTest {
 	public void test_PostUserWithoutIdAndNotPresentUsername_ShouldInsertNewUser() throws Exception {
 		
 		when(userService.getUserByUsername("newUsername")).thenReturn(null);
+		
 		
 		mvc.perform(post("/save-user")
 				.param("username", "test")
@@ -181,7 +251,9 @@ public class ApplicationWebControllerTest {
 		
 		when(userService.getUserByUsername("namePresent")).thenReturn(userInserted);
 		
+		
 		mvc.perform(post("/save-user")
+				.param("id", "1")
 				.param("username", "namePresent")
 				.param("password", "newpass")
 				.param("role", "1"))

@@ -3,10 +3,45 @@
 <head>
 <meta charset="UTF-8" />
 <title>.::. Crowdfunding .::.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
 </head>
 <body>
-	<h1>WELCOMEEEE!</h1>
+
+	<nav class="navbar navbar-inverse">
+		<div class="container">
+			<div class="navbar-header">
+				<p>Crowdfunding Application</p>
+			</div>
+			<div id="navbar" class="collapse navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a th:href="@{/action/home}">HOME</a></li>
+					<li><a th:href="@{/my-funds}">MY FUNDS</a></li>
+					<li><a th:href="@{/users-funds}">USERS' FUNDS</a>
+					<li><a th:href="@{/action/logout}">LOGOUT</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+<br>
+<div th:if="${MODE == 'MODE_HOME'}">
+	<span th:text=${welcomeUser}></span>
+	<hr><br>
+	<p>Welcome on Crowdfunding platform, this is the Home page.</p><br>
+	<p>You can see your funds and create a new on the page MY FUNDS</p>
+	<p>You can see the users' funds and make a donation, from the page USERS' FUNDS</p><br>
+	<p>Click on LOGOUT link to return to the login page>
+</div>
+
+<div th:if="${MODE == 'MODE_MYFUNDS'}">
+	<span  th:text=${MyFundsUser}></span>
+	<p> stampo solo quando mode è uguale a my_funds </p>
+</div>
+
+	<br>
 	<hr>
-	<a th:href="@{/action/logout}">LOGOUT</a>
+	
 </body>
 </html>
