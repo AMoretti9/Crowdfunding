@@ -10,7 +10,7 @@ import javax.persistence.Id;
 public class Fund {
 	
 	@Id @GeneratedValue
-	private Long id;
+	private Long id_fund;
 	
 	private String subject;
 	
@@ -24,20 +24,20 @@ public class Fund {
 		// required for serialization/deserialization
 	}
 	
-	public Fund(Long id, String subject, Double money, Integer state, Integer owner) {
-		this.id=id;
+	public Fund(Long id_fund, String subject, Double money, Integer state, Integer owner) {
+		this.id_fund=id_fund;
 		this.subject=subject;
 		this.money=money;
 		this.state=state;
 		this.owner=owner;
 	}
 	
-	public Long getId() {
-		return id;
+	public Long getId_fund() {
+		return id_fund;
 	}
 	
-	public void setId(Long id) {
-		this.id=id;
+	public void setId(Long id_fund) {
+		this.id_fund=id_fund;
 	}
 	
 	public String getSubject() {
@@ -74,7 +74,7 @@ public class Fund {
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(id, subject, money, state, owner);
+		return Objects.hash(id_fund, subject, money, state, owner);
 	}
 	
 	@Override
@@ -89,12 +89,12 @@ public class Fund {
 			return false;
 		}
 		Fund other = (Fund) obj;
-		return Objects.equals(id, other.id) && Objects.equals(subject, other.subject) && Objects.equals(money,  other.money) &&
+		return Objects.equals(id_fund, other.id_fund) && Objects.equals(subject, other.subject) && Objects.equals(money,  other.money) &&
 				Objects.equals(state,  other.state) && Objects.equals(owner,  other.owner);
 	}
 
 	@Override
 	public String toString() {
-		return "Fund [id=" + id + ", subject=" + subject + ", money=" + money + ", state=" + state + ", owner=" + owner + "]";
+		return "Fund [id=" + id_fund + ", subject=" + subject + ", money=" + money + ", state=" + state + ", owner=" + owner + "]";
 	}
 }

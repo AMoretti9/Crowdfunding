@@ -1,5 +1,6 @@
 package com.crowdfunding.controller;
 
+import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
@@ -11,6 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,9 +26,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-
+import com.crowdfunding.service.FundService;
 import com.crowdfunding.service.UserService;
 import com.crowdfunding.model.User;
+import com.crowdfunding.model.Fund;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(controllers = ApplicationWebController.class)
@@ -40,6 +43,9 @@ public class ApplicationWebControllerTest {
 	
 	@MockBean
 	private UserService userService;
+	
+	@MockBean
+	private FundService fundService;
 	
 	////////////////////
 	// HTML Unit Test //
@@ -120,7 +126,6 @@ public class ApplicationWebControllerTest {
 		
 	}
 	
-	
 	//////////////////////////////
 	//   Web Controller Test    //
 	//////////////////////////////
@@ -176,19 +181,27 @@ public class ApplicationWebControllerTest {
 		.andExpect(model().attribute("MODE", "MODE_HOME"));
 	}
 	
+	
 	@Test
-	public void testMyFundsPage() throws Exception {
+	public void testMyFunds_shouldShowMyFunds_whenMyFundsArePresent() throws Exception{
+		
 		User activeUser = new User(1L, "myName", "password", 1);
+		int activeId = (activeUser.getId()).intValue();
 		
 		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
-		
 		sessionattr.put("user", activeUser);
+		
+		List<Fund> funds = asList(new Fund(1L, "test fund", 10.0, 1, 1));
+		
+		when(fundService.getFundByOwner(activeId)).thenReturn(funds);
 		
 		mvc.perform(get("/my-funds").sessionAttrs(sessionattr))
 		.andExpect(view().name("home"))
 		.andExpect(model().attributeExists("user"))
 		.andExpect(model().attribute("MyFundsUser", "MY FUNDS  -  (Personal ID: 1, Username: myName)"))
+		.andExpect(model().attribute("myFunds", funds))
 		.andExpect(model().attribute("MODE", "MODE_MYFUNDS"));
+		
 	}
 	
 	@Test
@@ -219,9 +232,6 @@ public class ApplicationWebControllerTest {
 	public void test_PostUserWithUsernameAndPasswordNotPresent_ShouldNotLogin () throws Exception {
 		when(userService.getUserByUsernameAndPassword("aName", "thePass"))
 			.thenReturn(null);
-		
-		
-
 				
 		mvc.perform(post("/login-user")
 				.param("username", "aName")
@@ -242,6 +252,26 @@ public class ApplicationWebControllerTest {
 				.param("role", "1"))
 			.andExpect(view().name("redirect:/")); //back to the home page Index
 		verify(userService).insertNewUser(new User(null, "test", "abc123", 1));
+	}
+	
+	@Test
+	public void test_PostFund_ShouldInsertNew_WithOpenStateAndOwner() throws Exception {
+		
+		User activeUser = new User(1L, "myName", "password", 1);
+		Integer activeId = (activeUser.getId()).intValue();
+		
+		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+		sessionattr.put("user", activeUser);
+		
+		
+		
+		mvc.perform(post("/save-fund").sessionAttrs(sessionattr)
+				.param("subject", "test fund inserted")
+				.param("money", "0")
+				.param("state", "1")
+				.param("owner", activeId.toString()))
+			.andExpect(view().name("home"));
+		verify(fundService).insertNewFund(new Fund(null, "test fund inserted", 0.0, 1, 1));
 	}
 	
 	

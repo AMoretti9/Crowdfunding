@@ -1,5 +1,7 @@
 package com.crowdfunding.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +11,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.crowdfunding.model.Fund;
 import com.crowdfunding.model.User;
+import com.crowdfunding.service.FundService;
 import com.crowdfunding.service.UserService;
 
 @Controller
@@ -19,6 +23,9 @@ public class ApplicationWebController {
 
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private FundService fundService;
 	
 	@ModelAttribute("user")
 	public User  setupUserForm() {
@@ -38,8 +45,23 @@ public class ApplicationWebController {
 	}
 	
 	public String myFunds(Model model, @ModelAttribute("user") User user) {
+		
+		List<Fund> myFunds = fundService.getFundByOwner((user.getId()).intValue());
+		
+		model.addAttribute("myFunds", myFunds);
 		model.addAttribute("MODE", "MODE_MYFUNDS");
+		model.addAttribute("activeId", user.getId());
 		model.addAttribute("MyFundsUser", "MY FUNDS  -  (Personal ID: " + user.getId() + ", Username: " + user.getUsername() + ")");
+		
+		
+		return "home";
+	}
+	
+	public String usersFunds(Model model, @ModelAttribute("user") User user) {
+		
+		model.addAttribute("MODE", "MODE_USERSFUNDS");
+		
+		
 		return "home";
 	}
 	
@@ -72,9 +94,16 @@ public class ApplicationWebController {
 	
 	@GetMapping("/my-funds")
 	public String ActionMyFunds(Model model, @ModelAttribute("user") User user) {
+		model.addAttribute("fund", new Fund());
 		user.setId(user.getId());
 		user.setUsername(user.getUsername());
 		return myFunds(model, user);
+	}
+	
+	@GetMapping("/users-funds")
+	public String ActionUsersFunds(Model model, @ModelAttribute("user") User user) {
+		user.setId(user.getId());
+		return usersFunds(model, user);
 	}
 	
 	@GetMapping("/register")
@@ -95,6 +124,14 @@ public class ApplicationWebController {
 			return "register";
 		}
 	}
-
+	
+	@PostMapping("/save-fund")
+	public String saveFund(Fund fund, Model model, @ModelAttribute("user") User user) {
+		
+		fundService.insertNewFund(fund);
+		return myFunds(model, user);
+		
+	}
+		
 	
 }
