@@ -46,7 +46,7 @@
 		</div>
 
 		<div th:unless="${myFunds.empty}">
-			<table id="myFund_table">
+			<table style="table-layout: fixed; width:100%" id="myFund_table">
 				<thead>
 					<tr>
 						<th>ID</th>
@@ -58,9 +58,11 @@
 				<tbody>
 					<tr th:each="fund : ${myFunds}">
 						<td th:text="${fund.id_fund}"></td>
-						<td th:text="${fund.subject}"></td>
+						<td style="word-wrap: break-word; overflow-wrap: break-word" th:text="${fund.subject}"></td>
 						<td th:text="${fund.money}"></td>
-						<td><span th:if="${fund.state} == 1">OPEN</span></td>
+						<td>
+							<span th:if="${fund.state} == 1">OPEN</span>
+						</td>
 
 					</tr>
 				</tbody>
@@ -70,16 +72,18 @@
 		<div>
 			CREATE NEW FUND - Insert the subject and the description into below
 			text area.<br>
-			<form name="fund_form" action="#" th:action="@{/save-fund}"
+			<form name="fund_form" id="fund_form"  th:action="@{/save-fund}"
 				th:object="${fund}" method="post">
 				<input type="hidden" th:field="*{id_fund}"> <input
 					type="hidden" th:value="${activeId}" th:name="owner" th:id="owner" />
 				<input type="hidden" th:value="${0}" th:name="money" th:id="money" />
 				<input type="hidden" th:value="${1}" th:name="state" th:id="state" />
-				<input type="text" th:field="*{subject}" required="required" />
-
+				<textarea rows="3" cols="45" th:field="*{subject}" maxlength="135" form="fund_form"></textarea>
+				<br>
 				<button type="submit" name="btn_save_fund">Insert NEW FUND!</button>
+				
 			</form>
+		
 		</div>
 	</div>
 
@@ -91,7 +95,7 @@
 		</div>
 
 		<div th:unless="${usersFunds.empty}">
-			<table id="myFund_table">
+			<table style="table-layout: fixed; width:100%" id="myFund_table">
 				<thead>
 					<tr>
 						<th>ID</th>
@@ -102,7 +106,7 @@
 				<tbody>
 					<tr th:each="uFund : ${usersFunds}">
 						<td th:text="${uFund.id_fund}"></td>
-						<td th:text="${uFund.subject}"></td>
+						<td style="word-wrap: break-word; overflow-wrap: break-word" th:text="${uFund.subject}"></td>
 						<td th:text="${uFund.money}"></td>
 					</tr>
 				</tbody>
