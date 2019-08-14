@@ -26,6 +26,10 @@ public class FundService {
 	public List<Fund> getFundByOwner(int owner) {
 		return fundRepo.findByOwner(owner);
 	}
+
+	public List<Fund> getOpenFundsByOwnerNot(int notOwner) {
+		return fundRepo.findOpenFundsByOwnerNot(notOwner);
+	}
 	
 	
 	

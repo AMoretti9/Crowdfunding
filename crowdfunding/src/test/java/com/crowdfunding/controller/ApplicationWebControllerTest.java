@@ -205,6 +205,27 @@ public class ApplicationWebControllerTest {
 	}
 	
 	@Test
+	public void testUsersFunds_shouldShowUsersFunds_whenUsersFundsArePresent() throws Exception {
+		User activeUser = new User(1L, "myName", "password", 1);
+		int activeId = (activeUser.getId()).intValue();
+		
+		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+		sessionattr.put("user", activeUser);
+		
+		List<Fund> usersFunds = asList(
+				new Fund(1L, "test fund", 10.0, 1, 2), 
+				new Fund(2L, "test two", 5.0, 1, 3));
+		
+		when(fundService.getOpenFundsByOwnerNot(activeId)).thenReturn(usersFunds);
+		
+		mvc.perform(get("/users-funds").sessionAttrs(sessionattr))
+		.andExpect(view().name("home"))
+		.andExpect(model().attributeExists("user"))
+		.andExpect(model().attribute("usersFunds", usersFunds))
+		.andExpect(model().attribute("MODE", "MODE_USERSFUNDS"));
+	}
+	
+	@Test
 	public void register_newUser() throws Exception {
 		mvc.perform(get("/register"))
 			.andExpect(view().name("register"))

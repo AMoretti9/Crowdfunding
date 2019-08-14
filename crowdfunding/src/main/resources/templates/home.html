@@ -76,7 +76,7 @@
 					type="hidden" th:value="${activeId}" th:name="owner" th:id="owner" />
 				<input type="hidden" th:value="${0}" th:name="money" th:id="money" />
 				<input type="hidden" th:value="${1}" th:name="state" th:id="state" />
-				<input type="text" th:field="*{subject}">
+				<input type="text" th:field="*{subject}" required="required" />
 
 				<button type="submit" name="btn_save_fund">Insert NEW FUND!</button>
 			</form>
@@ -86,7 +86,28 @@
 	<div th:if="${MODE == 'MODE_USERSFUNDS'}">
 		USERS' FUNDS - See the active funds and make a donation
 		<hr>
+		<div th:if="${usersFunds.empty}">
+			<div>No open funds</div>
+		</div>
 
+		<div th:unless="${usersFunds.empty}">
+			<table id="myFund_table">
+				<thead>
+					<tr>
+						<th>ID</th>
+						<th>SUBJECT</th>
+						<th>MONEY</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="uFund : ${usersFunds}">
+						<td th:text="${uFund.id_fund}"></td>
+						<td th:text="${uFund.subject}"></td>
+						<td th:text="${uFund.money}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 
 

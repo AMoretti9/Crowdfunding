@@ -55,9 +55,31 @@ public class FundServiceTest {
 	public void test_getFundByOwner_Found() {
 		Fund fund1 = new Fund(1L, "first test fund", 10.0, 1, 2);
 		Fund fund2 = new Fund(2L, "second test fund", 5.0, 1, 2);
-		when(fundRepo.findByOwner(2)).thenReturn(asList(fund1, fund2));
+		when(fundRepo.findByOwner(2))
+			.thenReturn(asList(fund1, fund2));
 		assertThat(fundService.getFundByOwner(2))
 			.containsExactly(fund1, fund2);
+	}
+	
+	@Test 
+	public void test_getOpenFundByOwnerNot_NotFound() {
+		when(fundRepo.findOpenFundsByOwnerNot(anyInt())).thenReturn(null);
+		assertThat(fundService.getOpenFundsByOwnerNot(1)).isNull();
+	}
+	
+	@Test
+	public void test_getOpenFundByOwnerNot_Found() {
+		Fund fund1 = new Fund(1L, "test fund one", 10.0, 1, 1);
+		Fund fund2 = new Fund(2L, "test fund two", 20.0, 1, 2);
+		Fund fund3 = new Fund(3L, "test fund three", 30.0, 1, 1);
+		Fund fund4 = new Fund(4L, "test fund four", 40.0, 2, 1);
+		when(fundRepo.findOpenFundsByOwnerNot(2))
+			.thenReturn(asList(fund1, fund3));
+		assertThat(fundService.getOpenFundsByOwnerNot(2))
+			.containsExactly(fund1, fund3);
+		assertThat(fundService.getOpenFundsByOwnerNot(2))
+			.doesNotContain(fund2, fund4);
+		
 	}
 	
 }

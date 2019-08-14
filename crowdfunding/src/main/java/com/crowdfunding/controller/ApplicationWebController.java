@@ -59,6 +59,9 @@ public class ApplicationWebController {
 	
 	public String usersFunds(Model model, @ModelAttribute("user") User user) {
 		
+		List<Fund> usersFunds = fundService.getOpenFundsByOwnerNot((user.getId()).intValue());
+		
+		model.addAttribute("usersFunds", usersFunds);
 		model.addAttribute("MODE", "MODE_USERSFUNDS");
 		
 		
