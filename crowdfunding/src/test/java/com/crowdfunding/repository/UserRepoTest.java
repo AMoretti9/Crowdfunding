@@ -2,6 +2,8 @@ package com.crowdfunding.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ public class UserRepoTest {
 	@Autowired
 	private UserRepo userRepo;
 
+	
 	@Test
 	public void test_FindUserByUsername() {
 		User user = new User(null, "name", "password", 1);
@@ -32,5 +35,13 @@ public class UserRepoTest {
 		User found = userRepo.findByUsernameAndPassword("name", "password");
 		assertThat(found).isEqualTo(saved);
 	}
-
+	
+	@Test
+	public void test_UpdateRoleToAdmin() {
+		User user = new User(null, "admin", "password", 1);
+		User saved = userRepo.save(user);
+		userRepo.updateRoleToAdmin(saved.getId());
+		User found = userRepo.findByUsername("admin");
+		assertThat(found.getRole()).isEqualTo(2);
+	}
 }

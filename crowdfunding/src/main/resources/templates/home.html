@@ -63,7 +63,7 @@
 						<td>
 							<span th:if="${fund.state} == 1">OPEN</span>
 						</td>
-
+						<td><a th:href="@{'/myfund/' + ${fund.id_fund}}">Enter</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -108,6 +108,7 @@
 						<td th:text="${uFund.id_fund}"></td>
 						<td style="word-wrap: break-word; overflow-wrap: break-word" th:text="${uFund.subject}"></td>
 						<td th:text="${uFund.money}"></td>
+						<td><a th:href="@{'/userfund/' + ${uFund.id_fund}}">Enter</a></td>
 					</tr>
 				</tbody>
 			</table>

@@ -21,6 +21,12 @@ public class UserServiceTest {
 	
 	@InjectMocks
 	private UserService userService;
+	
+	@Test
+	public void test_updateRoleToAdmin() {
+		userService.updateRoleToAdmin(anyLong());
+		verify(userRepo, times(1)).updateRoleToAdmin(anyLong()); 
+	}
 
 	@Test
 	public void test_getUserByUsername_notFound() {

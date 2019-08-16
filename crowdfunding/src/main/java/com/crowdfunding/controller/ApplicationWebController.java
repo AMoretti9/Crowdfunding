@@ -121,6 +121,9 @@ public class ApplicationWebController {
 		final User presentUsername = userService.getUserByUsername(user.getUsername());
 		if (presentUsername == null) {
 			userService.insertNewUser(user);
+			if((user.getUsername()).equals("admin")) {
+				userService.updateRoleToAdmin(user.getId());
+			}
 			return "redirect:/";
 		} else {
 			model.addAttribute("messageRegister", "Username already in use! Please change it");

@@ -126,6 +126,8 @@ public class ApplicationWebControllerTest {
 		
 	}
 	
+	
+	
 	//////////////////////////////
 	//   Web Controller Test    //
 	//////////////////////////////
@@ -276,6 +278,40 @@ public class ApplicationWebControllerTest {
 	}
 	
 	@Test
+	public void test_PostUserWithoutIdAndAlreadyPresentUsername_ShouldNotInsertNewUser() throws Exception {
+		User userInserted = new User(1L, "namePresent", "mypass", 1);
+		
+		when(userService.getUserByUsername("namePresent")).thenReturn(userInserted);
+		
+		
+		mvc.perform(post("/save-user")
+				.param("id", "1")
+				.param("username", "namePresent")
+				.param("password", "newpass")
+				.param("role", "1"))
+				.andExpect(model().attribute("messageRegister", "Username already in use! Please change it"))
+			.andExpect(view().name("register"));
+		
+	}
+	
+	@Test
+	public void test_whenInsertedUserIsAdmin_DoUpdateOnRole() throws Exception {
+		
+		User userInserted = new User(1L, "admin", "password", 1);		
+		
+		mvc.perform(post("/save-user")
+				.param("id", "1")
+				.param("username", "admin")
+				.param("password", "password")
+				.param("role", "1"));
+		
+		if (userInserted.getUsername() == "admin") {
+			verify(userService).updateRoleToAdmin(1L);
+		}
+		
+	}
+	
+	@Test
 	public void test_PostFund_ShouldInsertNew_WithOpenStateAndOwner() throws Exception {
 		
 		User activeUser = new User(1L, "myName", "password", 1);
@@ -296,22 +332,7 @@ public class ApplicationWebControllerTest {
 	}
 	
 	
-	@Test
-	public void test_PostUserWithoutIdAndAlreadyPresentUsername_ShouldNotInsertNewUser() throws Exception {
-		User userInserted = new User(1L, "namePresent", "mypass", 1);
-		
-		when(userService.getUserByUsername("namePresent")).thenReturn(userInserted);
-		
-		
-		mvc.perform(post("/save-user")
-				.param("id", "1")
-				.param("username", "namePresent")
-				.param("password", "newpass")
-				.param("role", "1"))
-				.andExpect(model().attribute("messageRegister", "Username already in use! Please change it"))
-			.andExpect(view().name("register"));
-		
-	}
+	
 
 
 }

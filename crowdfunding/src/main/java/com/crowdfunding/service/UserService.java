@@ -28,6 +28,10 @@ public class UserService {
 	public User getUserByUsernameAndPassword(String username, String password) {
 		return userRepo.findByUsernameAndPassword(username, password);
 	}
+
+	public void updateRoleToAdmin(Long id) {
+		userRepo.updateRoleToAdmin(id);
+	}
 	
 	
 }
