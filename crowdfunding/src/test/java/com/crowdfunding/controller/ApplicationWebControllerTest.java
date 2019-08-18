@@ -127,7 +127,6 @@ public class ApplicationWebControllerTest {
 	}
 	
 	
-	
 	//////////////////////////////
 	//   Web Controller Test    //
 	//////////////////////////////
@@ -160,6 +159,12 @@ public class ApplicationWebControllerTest {
 	public void testLogoutStatus200() throws Exception {
 		mvc.perform(get("/action/logout")).
 			andExpect(status().is2xxSuccessful());
+	}
+	
+	@Test
+	public void testBackToHomeStatus200() throws Exception {
+		ModelAndViewAssert.assertViewName(mvc.perform(get("/action/home"))
+				.andReturn().getModelAndView(), "home");
 	}
 	
 	@Test
@@ -295,6 +300,16 @@ public class ApplicationWebControllerTest {
 	}
 	
 	@Test
+	public void test_TrimUsernameAndPasswordWhenUserSignUpWithBlankSpace () throws Exception {
+		mvc.perform(post("/save-user")
+				.param("username", "   test")
+				.param("password", "abc123\t")
+				.param("role", "1"))
+			.andExpect(view().name("redirect:/")); //back to the home page Index
+		verify(userService).insertNewUser(new User(null, "test", "abc123", 1));
+	}
+	
+	@Test
 	public void test_whenInsertedUserIsAdmin_DoUpdateOnRole() throws Exception {
 		
 		User userInserted = new User(1L, "admin", "password", 1);		
@@ -332,7 +347,120 @@ public class ApplicationWebControllerTest {
 	}
 	
 	
+	@Test
+	public void test_EditFund_whenFundIsFound() throws Exception {
+		Fund fund = new Fund(2L, "test fund", 0.0, 1, 1);
+		
+		when(fundService.getFundById(2L)).thenReturn(fund);
+		
+		mvc.perform(get("/myfund/2"))
+			.andExpect(view().name("fund"))
+			.andExpect(model().attribute("fundAttribute", fund))
+			.andExpect(model().attribute("closable", "YES"));
+		
+	}
 	
+	@Test
+	public void test_FundNotClosable_whenUserIsNotAdmin() throws Exception {
+		
+		User activeUser = new User(1L, "myName", "password", 1);
+		
+		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+		sessionattr.put("user", activeUser);
+		
+		Fund fund = new Fund(3L, "test fund", 0.0, 1, 1);
+		when(fundService.getFundById(3L)).thenReturn(fund);
+		
+		if (activeUser.getRole() == 1) {
+		mvc.perform(get("/userfund/3").sessionAttrs(sessionattr))
+			.andExpect(view().name("fund"))
+			.andExpect(model().attribute("fundAttribute", fund))
+			.andExpect(model().attribute("myFundEditable", "NO"))
+			.andExpect(model().attribute("closable", "NO"))
+			.andExpect(model().attribute("donate", "YES"));
+		}
+	}
+	
+	@Test
+	public void test_FundClosable_whenUserIsAdmin() throws Exception {
+		
+		User activeAdmin = new User(1L, "myName", "password", 2);
+		
+		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+		sessionattr.put("user", activeAdmin);
+		
+		Fund fund = new Fund(3L, "test fund", 0.0, 1, 1);
+		when(fundService.getFundById(3L)).thenReturn(fund);
+		
+		if (activeAdmin.getRole() == 2) {
+		mvc.perform(get("/userfund/3").sessionAttrs(sessionattr))
+			.andExpect(view().name("fund"))
+			.andExpect(model().attribute("fundAttribute", fund))
+			.andExpect(model().attribute("myFundEditable", "NO"))
+			.andExpect(model().attribute("closable", "YES"))
+			.andExpect(model().attribute("donate", "YES"));
+		}
+	}
+	
+	@Test
+	public void test_EditFund_isEditable() throws Exception {
+		Fund fund = new Fund(2L, "test fund", 0.0, 1, 1);
+		
+		when(fundService.getFundById(2L)).thenReturn(fund);
+		
+		if(fund.getMoney() == 0.0) {
+			mvc.perform(get("/myfund/2"))
+			.andExpect(model().attribute("myFundEditable", "YES"));
+		}
+	}
 
+	@Test
+	public void test_EditFund_isNotEditable() throws Exception {
+		Fund fund = new Fund(2L, "test fund", 5.0, 1, 1);
+		
+		when(fundService.getFundById(2L)).thenReturn(fund);
+		
+		if(fund.getMoney() != 0.0) {
+			mvc.perform(get("/myfund/2"))
+			.andExpect(model().attribute("myFundEditable", "NO"));
+		}
+	}
+	
+	@Test
+	public void test_userClosesFund() throws Exception{
+		User activeUser = new User(1L, "myName", "password", 1);
+		
+		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+		sessionattr.put("user", activeUser);
+		Fund fund = new Fund(1L, "test fund", 0.0, 1, 1);
+		fundService.insertNewFund(fund);
+		
+		if(activeUser.getRole() == 1) {
+		mvc.perform(post("/closes").sessionAttrs(sessionattr)
+				.param("id_fund", "1")
+				.param("subject", "test fund")
+				.param("money", "0.0")
+				.param("state", "1")
+				.param("owner", "1"))
+			.andExpect(view().name("home"));
+		verify(fundService).userClosesFund(1L);
+		}
+	}
+	
+	//Here test when admin close
+	
+	@Test
+	public void test_updateSubjectFund() throws Exception{
+		mvc.perform(post("/edit-subject")
+				.param("id_fund", "1")
+				.param("subject", "test newSub")
+				.param("money", "0.0")
+				.param("state", "1")
+				.param("owner", "1"))
+			.andExpect(view().name("home"));
+		verify(fundService).updateFundById(1L, new Fund(1L, "test newSub", 0.0, 1, 1));
 
+	}
+	
+	
 }

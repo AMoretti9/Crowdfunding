@@ -9,5 +9,43 @@
 </head>
 <body>
 
+	<form name="editMyFund_form" id="editMyFund_form"
+		th:action="@{/edit-subject}" th:object="${fundAttribute}" method="post">
+		<input type="hidden" th:field="*{id_fund}"> <input
+				type="hidden" th:field="*{version}">
+		<textarea rows="3" cols="45" th:field="*{subject}" maxlength="135"
+			form="editMyFund_form"></textarea>
+		<br> <input type="hidden" th:field="*{money}" /> <input
+			type="hidden" th:field="*{state}" /> <input type="hidden"
+			th:field="*{owner}" />
+		<div th:if="${myFundEditable == 'YES'}">
+			<button type="submit" name="btn_edit_subject">Edit Subject</button>
+		</div>
+	</form>
+
+
+	<div th:if="${closable == 'YES'}">
+		<form name="userCloses_form" th:action="@{/closes}"
+			th:object="${fundAttribute}" method="post">
+
+			<input type="hidden" th:field="*{id_fund}"> <input
+				type="hidden" th:field="*{version}"> <input type="hidden"
+				th:field="*{subject}" /> <input type="hidden" th:field="*{money}" />
+			<input type="hidden" th:field="*{state}" /> <input type="hidden"
+				th:field="*{owner}" />
+			<button type="submit" name="btn_userCloses">Close Fund</button>
+		</form>
+	</div>
+	<br>
+
+	<div th:if="${donate == 'YES'}">
+		Insert the amount of money and make a donation!
+	</div>
+
+	<br>
+	<div>
+		<a th:href="@{/action/home}">Go Back</a>
+	</div>
+
 </body>
 </html>

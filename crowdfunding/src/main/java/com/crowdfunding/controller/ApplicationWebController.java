@@ -7,6 +7,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -119,6 +120,8 @@ public class ApplicationWebController {
 	@PostMapping("/save-user")
 	public String saveUser(User user, Model model) {
 		final User presentUsername = userService.getUserByUsername(user.getUsername());
+		user.setUsername(user.getUsername().trim());
+		user.setPassword(user.getPassword().trim());
 		if (presentUsername == null) {
 			userService.insertNewUser(user);
 			if((user.getUsername()).equals("admin")) {
@@ -139,5 +142,50 @@ public class ApplicationWebController {
 		
 	}
 		
+	@GetMapping("/myfund/{id_fund}")
+	public String editMyFund(@PathVariable long id_fund, Model model) {
+		
+		Fund fundById = fundService.getFundById(id_fund);
+		model.addAttribute("fundAttribute", fundById);
+		model.addAttribute("closable", "YES");
+		//donate no
+		if(fundById.getMoney()== 0.0) {
+			model.addAttribute("myFundEditable", "YES");
+		}else {
+			model.addAttribute("myFundEditable", "NO");
+		}
+		return "fund";
+	}
+	
+	@GetMapping("/userfund/{id_fund}")
+	public String editUserFund(@PathVariable Long id_fund, @ModelAttribute("user") User user, Model model) {
+		Fund fundById = fundService.getFundById(id_fund);
+		model.addAttribute("fundAttribute", fundById);
+		model.addAttribute("myFundEditable", "NO");
+		model.addAttribute("donate", "YES");
+		if(user.getRole() == 1) {
+			model.addAttribute("closable", "NO");
+		} else {
+			model.addAttribute("closable", "YES");
+		}
+		
+		return "fund";
+	}
+
+	@PostMapping("/closes")
+	public String userClosesFund(Model model, Fund fund, @ModelAttribute("user") User user) {
+		if(user.getRole() == 1) {
+		fundService.userClosesFund(fund.getId_fund());
+		}
+		// implement user.getRole = 2 -> close by admin
+		return "home";
+	}
+	
+	@PostMapping("/edit-subject")
+	public String editFundSubject(Model model, Fund fund) {
+		final Long id = fund.getId_fund();
+		fundService.updateFundById(id, fund);
+		return "home";
+	}
 	
 }

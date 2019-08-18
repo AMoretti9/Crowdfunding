@@ -3,6 +3,7 @@ package com.crowdfunding.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -45,6 +46,16 @@ public class FundRepoTest {
 		
 		assertThat(founds).containsExactly(saved1, saved3);
 		assertThat(founds).doesNotContain(saved2, saved4);
+	}
+
+	
+	@Test
+	public void test_UserClosesFund() {
+		Fund fund = new Fund(null, "test fund", 5.0, 1, 1);
+		Fund saved=fundRepo.save(fund);
+		fundRepo.userClosesFund(saved.getId_fund());
+		Optional<Fund> found = fundRepo.findById(saved.getId_fund());
+		assertThat(found.get().getState()).isEqualTo(2);
 	}
 
 }

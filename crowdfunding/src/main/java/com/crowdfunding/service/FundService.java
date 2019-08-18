@@ -16,9 +16,13 @@ public class FundService {
 		this.fundRepo=fundRepo;
 	}
 	
+	public Fund getFundById(long id) {
+		return fundRepo.findById(id).orElse(null);
+	}
+	
 	public Fund insertNewFund(Fund fund) {
 		
-		fund.setId(null);
+		fund.setId_fund(null);
 		return fundRepo.save(fund);
 		
 	}
@@ -31,6 +35,13 @@ public class FundService {
 		return fundRepo.findOpenFundsByOwnerNot(notOwner);
 	}
 	
+	public void userClosesFund (Long id) {
+		fundRepo.userClosesFund(id);
+	}
 	
+	public Fund updateFundById (long id, Fund replacement) {
+		replacement.setId_fund(id);
+		return fundRepo.save(replacement);
+	}
 	
 }

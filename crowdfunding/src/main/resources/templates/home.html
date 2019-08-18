@@ -62,6 +62,8 @@
 						<td th:text="${fund.money}"></td>
 						<td>
 							<span th:if="${fund.state} == 1">OPEN</span>
+							<span th:if="${fund.state} == 2">CLOSED</span>
+							<span th:if="${fund.state} == 3">CLOSED BY ADMIN</span>
 						</td>
 						<td><a th:href="@{'/myfund/' + ${fund.id_fund}}">Enter</a></td>
 					</tr>
@@ -78,9 +80,9 @@
 					type="hidden" th:value="${activeId}" th:name="owner" th:id="owner" />
 				<input type="hidden" th:value="${0}" th:name="money" th:id="money" />
 				<input type="hidden" th:value="${1}" th:name="state" th:id="state" />
-				<textarea rows="3" cols="45" th:field="*{subject}" maxlength="135" form="fund_form"></textarea>
+				<textarea rows="3" cols="45" th:field="*{subject}" maxlength="135" form="fund_form" required></textarea>
 				<br>
-				<button type="submit" name="btn_save_fund">Insert NEW FUND!</button>
+				<input type="submit" name="btn_save_fund" value="Insert NEW FUND!">
 				
 			</form>
 		

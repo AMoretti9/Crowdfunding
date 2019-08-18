@@ -2,12 +2,15 @@ package com.crowdfunding.service;
 
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 
 import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
+
+import java.util.Optional;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,7 +44,7 @@ public class FundServiceTest {
 		assertThat(result).isSameAs(saved);
 		
 		InOrder inOrder = inOrder(toSave, fundRepo);
-		inOrder.verify(toSave).setId(null);
+		inOrder.verify(toSave).setId_fund(null);
 		inOrder.verify(fundRepo).save(toSave);
 	}
 	
@@ -82,4 +85,39 @@ public class FundServiceTest {
 		
 	}
 	
+	@Test
+	public void test_getFundById_found() {
+		Fund fund = new Fund(1L, "test", 0.0, 1, 1);
+		when(fundRepo.findById(1L)).thenReturn(Optional.of(fund));
+		assertThat(fundService.getFundById(1)).isSameAs(fund);
+	}
+	
+	@Test
+	public void test_getFundById_NotFound() {
+		when(fundRepo.findById(anyLong())).thenReturn(Optional.empty());
+		assertThat(fundService.getFundById(1)).isNull();
+	}
+	
+	@Test
+	public void test_userClosesFund() {
+		fundService.userClosesFund(anyLong());
+		verify(fundRepo, times(1)).userClosesFund(anyLong());
+	}
+	
+	@Test
+	public void test_updateFundById_setsIdToArgument_and_returnsSavedFund() {
+		Fund replacement = spy(new Fund(null, "replacement fund", 0.0, 1, 1));
+		Fund replaced = new Fund(1L, "fund to replace", 0.0, 1, 1);
+
+		when(fundRepo.save(any(Fund.class)))
+			.thenReturn(replaced);
+
+		Fund result = fundService.updateFundById(1L, replacement);
+
+		assertThat(result).isSameAs(replaced);
+
+		InOrder inOrder = inOrder(replacement, fundRepo);
+		inOrder.verify(replacement).setId_fund(1L);
+		inOrder.verify(fundRepo).save(replacement);
+	}
 }

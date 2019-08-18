@@ -5,12 +5,16 @@ import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Version;
 
 @Entity
 public class Fund {
 	
 	@Id @GeneratedValue
 	private Long id_fund;
+	
+	@Version
+    private Long version;
 	
 	private String subject;
 	
@@ -36,9 +40,16 @@ public class Fund {
 		return id_fund;
 	}
 	
-	public void setId(Long id_fund) {
+	public void setId_fund(Long id_fund) {
 		this.id_fund=id_fund;
 	}
+	
+	public Long getVersion() {
+        return version;
+    }
+    public void setVersion(Long version) {
+        this.version = version;
+    }
 	
 	public String getSubject() {
 		return subject;
