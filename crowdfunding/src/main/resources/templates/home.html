@@ -63,7 +63,7 @@
 						<td>
 							<span th:if="${fund.state} == 1">OPEN</span>
 							<span th:if="${fund.state} == 2">CLOSED</span>
-							<span th:if="${fund.state} == 3">CLOSED BY ADMIN</span>
+							<span th:if="${fund.state} == 3">CLOSED by Admin</span>
 						</td>
 						<td><a th:href="@{'/myfund/' + ${fund.id_fund}}">Enter</a></td>
 					</tr>

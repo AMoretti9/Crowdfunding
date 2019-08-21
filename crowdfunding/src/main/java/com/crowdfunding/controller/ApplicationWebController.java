@@ -175,9 +175,10 @@ public class ApplicationWebController {
 	@PostMapping("/closes")
 	public String userClosesFund(Model model, Fund fund, @ModelAttribute("user") User user) {
 		if(user.getRole() == 1) {
-		fundService.userClosesFund(fund.getId_fund());
+			fundService.userClosesFund(fund.getId_fund());
+		} else {
+			fundService.adminClosesFund(fund.getId_fund());
 		}
-		// implement user.getRole = 2 -> close by admin
 		return "home";
 	}
 	

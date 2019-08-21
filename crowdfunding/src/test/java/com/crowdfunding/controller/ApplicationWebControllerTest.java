@@ -447,7 +447,26 @@ public class ApplicationWebControllerTest {
 		}
 	}
 	
-	//Here test when admin close
+	@Test
+	public void test_adminClosesFund() throws Exception{
+		User admin = new User(1L, "myName", "password", 2);
+		
+		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+		sessionattr.put("user", admin);
+		Fund fund = new Fund(1L, "test fund", 0.0, 1, 1);
+		fundService.insertNewFund(fund);
+		
+		if(admin.getRole() == 2) {
+		mvc.perform(post("/closes").sessionAttrs(sessionattr)
+				.param("id_fund", "1")
+				.param("subject", "test fund")
+				.param("money", "0.0")
+				.param("state", "1")
+				.param("owner", "1"))
+			.andExpect(view().name("home"));
+		verify(fundService).adminClosesFund(1L);
+		}
+	}
 	
 	@Test
 	public void test_updateSubjectFund() throws Exception{

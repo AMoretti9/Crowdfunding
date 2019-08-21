@@ -39,6 +39,10 @@ public class FundService {
 		fundRepo.userClosesFund(id);
 	}
 	
+	public void adminClosesFund (Long id) {
+		fundRepo.adminClosesFund(id);
+	}
+	
 	public Fund updateFundById (long id, Fund replacement) {
 		replacement.setId_fund(id);
 		return fundRepo.save(replacement);

@@ -21,4 +21,9 @@ public interface FundRepo extends JpaRepository<Fund, Long> {
 	@Transactional
 	@Query("update Fund f set f.state = 2 where f.id_fund = :fundid")
 	void userClosesFund(@Param("fundid") Long id);
+
+	@Modifying(flushAutomatically = true, clearAutomatically = true)
+	@Transactional
+	@Query("update Fund f set f.state = 3 where f.id_fund = :fundid")
+	void adminClosesFund(@Param("fundid") Long id);
 }
