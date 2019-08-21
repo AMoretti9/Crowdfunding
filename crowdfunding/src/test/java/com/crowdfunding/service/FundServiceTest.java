@@ -111,6 +111,12 @@ public class FundServiceTest {
 	}
 	
 	@Test
+	public void test_donateMoneyToFund() {
+		fundService.donateMoneyToFund(anyDouble(), anyLong());
+		verify(fundRepo, times(1)).donateMoneyToFund(anyDouble(), anyLong());
+	}
+	
+	@Test
 	public void test_updateFundById_setsIdToArgument_and_returnsSavedFund() {
 		Fund replacement = spy(new Fund(null, "replacement fund", 0.0, 1, 1));
 		Fund replaced = new Fund(1L, "fund to replace", 0.0, 1, 1);

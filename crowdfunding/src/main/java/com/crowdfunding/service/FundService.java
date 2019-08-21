@@ -47,5 +47,11 @@ public class FundService {
 		replacement.setId_fund(id);
 		return fundRepo.save(replacement);
 	}
+
+	public void donateMoneyToFund(double donation, long id) {
+		fundRepo.donateMoneyToFund(donation, id);
+	}
+	
+	
 	
 }

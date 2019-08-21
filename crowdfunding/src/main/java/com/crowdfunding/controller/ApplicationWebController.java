@@ -192,6 +192,7 @@ public class ApplicationWebController {
 	@PostMapping("/action/donate")
 	public String donateMoney(Model model, @ModelAttribute("donation") Double donation, Fund fund, @ModelAttribute("user") User user) {
 		
+		fundService.donateMoneyToFund(donation, fund.getId_fund());
 		
 		System.out.println("Donation of " + donation + ", in Fund: " + fund.toString());
 		return home(model, user);

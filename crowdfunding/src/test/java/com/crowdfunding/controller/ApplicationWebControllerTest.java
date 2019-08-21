@@ -481,5 +481,28 @@ public class ApplicationWebControllerTest {
 
 	}
 	
+	@Test
+	public void test_donateMoneyToFund() throws Exception{
+		User activeUser = new User(1L, "myName", "password", 1);
+		
+		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+		sessionattr.put("user", activeUser);
+		
+		Fund fund = new Fund(1L, "test fund", 0.0, 1, 1);
+		fundService.insertNewFund(fund);
+		
+		if(activeUser.getRole() == 1) {
+		mvc.perform(post("/action/donate").sessionAttrs(sessionattr)
+				.param("donation", "5.0")
+				.param("id_fund", "1")
+				.param("subject", "test fund")
+				.param("money", "0.0")
+				.param("state", "1")
+				.param("owner", "1"))
+			.andExpect(view().name("home"));
+		verify(fundService).donateMoneyToFund(5.0, 1L);
+	}
+	}
+	
 	
 }

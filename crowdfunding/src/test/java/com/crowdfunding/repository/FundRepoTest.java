@@ -66,5 +66,14 @@ public class FundRepoTest {
 		Optional<Fund> found = fundRepo.findById(saved.getId_fund());
 		assertThat(found.get().getState()).isEqualTo(3);
 	}
+	
+	@Test
+	public void test_donateMoneyToFund() {
+		Fund fund = new Fund(null, "test fund", 5.5, 1, 1);
+		Fund saved = fundRepo.save(fund);
+		fundRepo.donateMoneyToFund(3.5, saved.getId_fund());
+		Optional<Fund> found = fundRepo.findById(saved.getId_fund());
+		assertThat(found.get()).isEqualTo(new Fund(1L, "test fund", 9.0, 1, 1));
+	}
 
 }
