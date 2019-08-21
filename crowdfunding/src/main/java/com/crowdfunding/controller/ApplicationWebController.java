@@ -179,14 +179,22 @@ public class ApplicationWebController {
 		} else {
 			fundService.adminClosesFund(fund.getId_fund());
 		}
-		return "home";
+		return home(model, user);
 	}
 	
 	@PostMapping("/edit-subject")
-	public String editFundSubject(Model model, Fund fund) {
+	public String editFundSubject(Model model, Fund fund, @ModelAttribute("user") User user) {
 		final Long id = fund.getId_fund();
 		fundService.updateFundById(id, fund);
-		return "home";
+		return home(model, user);
+	}
+	
+	@PostMapping("/action/donate")
+	public String donateMoney(Model model, @ModelAttribute("donation") Double donation, Fund fund, @ModelAttribute("user") User user) {
+		
+		
+		System.out.println("Donation of " + donation + ", in Fund: " + fund.toString());
+		return home(model, user);
 	}
 	
 }
