@@ -2,7 +2,9 @@ package com.crowdfunding.service;
 
 import java.util.List;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.crowdfunding.model.Fund;
 import com.crowdfunding.repository.FundRepo;
@@ -43,6 +45,8 @@ public class FundService {
 		fundRepo.adminClosesFund(id);
 	}
 	
+	@Modifying(flushAutomatically = true, clearAutomatically = true)
+	@Transactional
 	public Fund updateFundById (long id, Fund replacement) {
 		replacement.setId_fund(id);
 		return fundRepo.save(replacement);
