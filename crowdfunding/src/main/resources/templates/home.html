@@ -1,29 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8" />
 <title>.::. Crowdfunding .::.</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-
+<link rel="stylesheet" th:href="@{/css/main.css}"
+	href="../../css/main.css" />
 
 </head>
 <body>
-
-	<nav class="navbar navbar-inverse">
-		<div class="container">
-			<div class="navbar-header">
-				<p>Crowdfunding Application</p>
-			</div>
-			<div id="navbar" class="collapse navbar-collapse">
-				<ul class="nav navbar-nav">
-					<li><a th:href="@{/action/home}">HOME</a></li>
-					<li><a th:href="@{/my-funds}">MY FUNDS</a></li>
-					<li><a th:href="@{/users-funds}">USERS' FUNDS</a>
-					<li><a th:href="@{/action/logout}">LOGOUT</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+	<div id='cssmenu'>
+		<ul>
+			<li><a th:href="@{/action/home}">HOME</a></li>
+			<li><a th:href="@{/my-funds}">MY FUNDS</a></li>
+			<li><a th:href="@{/users-funds}">USERS' FUNDS</a>
+			<li><a th:href="@{/action/logout}">LOGOUT</a></li>
+		</ul>
+	</div>
 
 	<br>
 	<div id="div_welcome" th:if="${MODE == 'MODE_HOME'}">
@@ -46,25 +38,25 @@
 		</div>
 
 		<div th:unless="${myFunds.empty}">
-			<table style="table-layout: fixed; width:100%" id="myFund_table">
+			<table id="myFund_table">
 				<thead>
 					<tr>
 						<th>ID</th>
 						<th>SUBJECT</th>
 						<th>MONEY</th>
 						<th>STATE</th>
+						<th>ACTION</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="fund : ${myFunds}">
 						<td th:text="${fund.id_fund}"></td>
-						<td style="word-wrap: break-word; overflow-wrap: break-word" th:text="${fund.subject}"></td>
+						<td class="auto-head"
+							th:text="${fund.subject}"></td>
 						<td th:text="${fund.money}"></td>
-						<td>
-							<span th:if="${fund.state} == 1">OPEN</span>
-							<span th:if="${fund.state} == 2">CLOSED</span>
-							<span th:if="${fund.state} == 3">CLOSED by Admin</span>
-						</td>
+						<td><span th:if="${fund.state} == 1">OPEN</span> <span
+							th:if="${fund.state} == 2">CLOSED</span> <span
+							th:if="${fund.state} == 3">CLOSED by Admin</span></td>
 						<td><a th:href="@{'/myfund/' + ${fund.id_fund}}">Enter</a></td>
 					</tr>
 				</tbody>
@@ -72,20 +64,22 @@
 		</div>
 		<hr>
 		<div>
+		<br>
 			CREATE NEW FUND - Insert the subject and the description into below
 			text area.<br>
-			<form name="fund_form" id="fund_form"  th:action="@{/save-fund}"
+			<form class="form-center" name="fund_form" id="fund_form" th:action="@{/save-fund}"
 				th:object="${fund}" method="post">
 				<input type="hidden" th:field="*{id_fund}"> <input
 					type="hidden" th:value="${activeId}" th:name="owner" th:id="owner" />
 				<input type="hidden" th:value="${0}" th:name="money" th:id="money" />
 				<input type="hidden" th:value="${1}" th:name="state" th:id="state" />
-				<textarea rows="3" cols="45" th:field="*{subject}" maxlength="135" form="fund_form" required></textarea>
-				<br>
-				<input type="submit" name="btn_save_fund" value="Insert NEW FUND!">
-				
+				<textarea rows="3" cols="45" th:field="*{subject}" maxlength="135"
+					form="fund_form" required></textarea>
+				<br> <input type="submit" name="btn_save_fund"
+					value="Insert NEW FUND!">
+
 			</form>
-		
+
 		</div>
 	</div>
 
@@ -97,18 +91,20 @@
 		</div>
 
 		<div th:unless="${usersFunds.empty}">
-			<table style="table-layout: fixed; width:100%" id="usersFund_table">
+			<table id="usersFund_table">
 				<thead>
 					<tr>
 						<th>ID</th>
 						<th>SUBJECT</th>
 						<th>MONEY</th>
+						<th>ACTION</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="uFund : ${usersFunds}">
 						<td th:text="${uFund.id_fund}"></td>
-						<td style="word-wrap: break-word; overflow-wrap: break-word" th:text="${uFund.subject}"></td>
+						<td class="auto-head"
+							th:text="${uFund.subject}"></td>
 						<td th:text="${uFund.money}"></td>
 						<td><a th:href="@{'/userfund/' + ${uFund.id_fund}}">Enter</a></td>
 					</tr>

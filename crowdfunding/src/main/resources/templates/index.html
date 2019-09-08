@@ -1,31 +1,45 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8" />
 <title>Login .::. Crowdfunding</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+<link rel="stylesheet" th:href="@{/css/main.css}"
+	href="../../css/main.css" />
+
+
 </head>
 <body>
-	<div style="text-align: center">
+	<div class="title-login">
 		<h2>Welcome on the Crowdfunding platform</h2>
 		<hr />
 		<br>
-		<form name="userLogin_form" action="#" th:action="@{/login-user}" method="post">
-			<div>
-				Username:  <input type="text" id="username" name="username" required>
-			</div>
-			<div>
-				Password:  <input type="password" id="password" name="password" required>
-			</div>
-			<div>
-				<input type="submit" name="btn_login" value="Login">
-			</div>
+		<form name="userLogin_form" action="#" th:action="@{/login-user}"
+			method="post">
+			<table class="form-center">
+				<tbody>
+
+					<tr>
+						<td>Username:</td>
+						<td><input type="text" id="username" name="username" required>
+						</td>
+					</tr>
+					<tr>
+						<td>Password:</td>
+						<td><input type="password" id="password" name="password"
+							required></td>
+					</tr>
+					<tr>
+						<td colspan="2"><input class="buttons" type="submit" name="btn_login"
+							value="Login"></td>
+					</tr>
+				</tbody>
+			</table>
 		</form>
-		<br>
-		<span th:text="${messageLogin}"></span>
-		<br>
-		<br>
-		
-			<a th:href="@{/register}">Register</a>
-		</div>
+		<br> <span th:text="${messageLogin}"></span> <br> <br>
+
+		<a th:href="@{/register}">Register</a>
+	</div>
 </body>
 </html>

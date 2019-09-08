@@ -139,6 +139,24 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-failsafe-plugin</artifactId>
+			<executions>
+			<execution>
+			<id>e2e-tests</id>
+			<configuration>
+			<includes>
+			<include>**/*E2E.java</include>
+			</includes>
+			</configuration>
+			<goals>
+			<goal>integration-test</goal>
+			<goal>verify</goal>
+			</goals>
+			</execution>
+			</executions>
+			</plugin>
 		</plugins>
 	</build>
 
