@@ -3,6 +3,11 @@ package com.crowdfunding;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Statement;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -33,13 +38,31 @@ public class FundWebControllerE2E {
 	public void setUp() throws Exception {
 		baseURL = "http://localhost:" + port;
 		driver = new ChromeDriver();
+		try {
+			Class.forName("org.h2.Driver");
+			System.out.println("connecting to db");
+			Connection conn = DriverManager.getConnection("jdbc:h2:~/mydb;AUTO_SERVER=TRUE", "sa", "");
+			Statement stmt = conn.createStatement();
+			String createUser = "create table if not exists user";
+			stmt.executeUpdate(createUser);
+			String createFund = "create table if not exists fund";
+			stmt.executeUpdate(createFund);
+			String strDeleteUser = "delete from user";
+			stmt.executeUpdate(strDeleteUser);
+			String strDeleteFund = "delete from fund";
+			stmt.executeUpdate(strDeleteFund);
+			
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
 	}
-
+	
 	@After
 	public void tearDown() throws Exception {
 		driver.quit();
 	}
-
+	
+	
 	@Test
 	public void testUserOpenNewFund() throws Exception {
 		driver.get(baseURL);
@@ -308,12 +331,6 @@ public class FundWebControllerE2E {
 				
 		//close the fund
 		driver.findElement(By.name("btn_userCloses")).click();
-				
-		//return in Users' Funds and verify there isn't the fund closed
-		driver.findElement(By.linkText("USERS' FUNDS")).click();
-		Thread.sleep(500);
-		assertThat(driver.findElement(By.id("usersFund_table")).getText()).
-			doesNotContain("fund closed by admin");
 		
 		driver.findElement(By.linkText("LOGOUT")).click();
 		Thread.sleep(500);
@@ -333,4 +350,5 @@ public class FundWebControllerE2E {
 		assertThat(driver.findElement(By.id("myFund_table")).getText()).
 		contains("fund closed by admin", "CLOSED by Admin");
 	}
+	
 }
