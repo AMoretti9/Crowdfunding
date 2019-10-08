@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>.::. Crowdfunding .::.</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<link rel="stylesheet" th:href="@{/css/main.css}"
+	href="../../css/main.css" />
+
+</head>
+<body>
+
+	<form class="form-center" name="editMyFund_form" id="editMyFund_form"
+		th:action="@{/edit-subject}" th:object="${fundAttribute}" method="post">
+		<input type="hidden" th:field="*{id_fund}"> <input
+				type="hidden" th:field="*{version}">
+		<textarea rows="3" cols="45" th:field="*{subject}" maxlength="135"
+			form="editMyFund_form"></textarea>
+		<br> <input type="hidden" th:field="*{money}" /> <input
+			type="hidden" th:field="*{state}" /> <input type="hidden"
+			th:field="*{owner}" />
+		<div th:if="${myFundEditable == 'YES'}">
+			<button class="buttons" type="submit" name="btn_edit_subject">Edit Subject</button>
+		</div>
+	</form>
+
+
+	<div th:if="${closable == 'YES'}">
+		<form class="form-center" name="userCloses_form" th:action="@{/closes}"
+			th:object="${fundAttribute}" method="post">
+
+			<input type="hidden" th:field="*{id_fund}"> <input
+				type="hidden" th:field="*{version}"> <input type="hidden"
+				th:field="*{subject}" /> <input type="hidden" th:field="*{money}" />
+			<input type="hidden" th:field="*{state}" /> <input type="hidden"
+				th:field="*{owner}" />
+			<button class="buttons" type="submit" name="btn_userCloses">Close Fund</button>
+		</form>
+	</div>
+	<br>
+
+	<div th:if="${donate == 'YES'}">
+		
+		<form class="form-center" name="donation_form" action="#" th:action="@{/action/donate}" th:object="${fundAttribute}" method="post">
+			Insert the amount of money and make a donation!
+			<div>
+				Money to Donate:  <input type="number" step="0.5" min="0" id="donation" name="donation" required>
+				<input type="hidden" th:field="*{id_fund}"> 
+				<input type="hidden" th:field="*{subject}">
+				<input type="hidden" th:field="*{money}">
+				<input type="hidden" th:field="*{state}">
+				<input type="hidden" th:field="*{owner}">
+			</div>
+			<div>
+				<input class="buttons" type="submit" name="btn_donate" value="DONATE!">
+			</div>
+		</form>
+	</div>
+
+	<br>
+	<div class="title-login">
+		<a th:href="@{/action/home}">Go Back</a>
+	</div>
+
+</body>
+</html>

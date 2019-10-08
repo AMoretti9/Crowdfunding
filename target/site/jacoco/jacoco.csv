@@ -1,0 +1,4 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+crowdfunding,com.crowdfunding.service,FundService,0,62,0,0,0,16,0,9,0,9
+crowdfunding,com.crowdfunding.service,UserService,0,31,0,0,0,9,0,5,0,5
+crowdfunding,com.crowdfunding.controller,ApplicationWebController,0,368,0,12,0,73,0,25,0,19

@@ -1,0 +1,12 @@
+com/crowdfunding/UserWebControllerE2E.class
+com/crowdfunding/service/FundServiceTest.class
+com/crowdfunding/FundServiceRepositoryIT.class
+com/crowdfunding/FundWebControllerE2E.class
+com/crowdfunding/repository/FundRepoTest.class
+com/crowdfunding/UserWebControllerIT.class
+com/crowdfunding/FundWebControllerIT.class
+com/crowdfunding/repository/UserRepoTest.class
+com/crowdfunding/UserServiceRepositoryIT.class
+com/crowdfunding/controller/ApplicationWebControllerTest.class
+com/crowdfunding/service/UserServiceTest.class
+com/crowdfunding/CrowdfundingApplicationTests.class

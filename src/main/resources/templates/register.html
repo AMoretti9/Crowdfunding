@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Sign In .::. Crowdfunding</title>
+<meta  http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+
+<link rel="stylesheet" th:href="@{/css/main.css}"
+	href="../../css/main.css" />
+</head>
+<body>
+
+
+	<div style="text-align: center">
+		<h3>Choose your username and password and sign in</h3>
+		<br>
+
+		<form name="user_form" action="#" th:action="@{/save-user}"
+			th:object="${user}" method="post">
+			<input type="hidden" th:field="*{id}"> <input type="hidden"
+				th:value="${1}" th:name="role" th:id="role" />
+			<table
+				class="form-center">
+				<tbody>
+					<tr>
+						<td class="table-register">Username:</td>
+						<td class="table-register"><input type="text"
+							th:field="*{username}" maxlength="20" required></td>
+					</tr>
+					<tr>
+						<td class="table-register">Password:</td>
+						<td class="table-register"><input id="password"
+							type="password" pattern="^\S{6,}$"
+							onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have at least 6 characters' : ''); if(this.checkValidity()) form.password_two.pattern = this.value;"
+							th:field="*{password}" required></td>
+					</tr>
+					<tr>
+						<td class="table-register">Confirm Password:</td>
+						<td class="table-register"><input id="password_two"
+							type="password" pattern="^\S{6,}$"
+							onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Match the request format' : '');"
+							required></td>
+					</tr>
+				</tbody>
+			</table>
+
+			<br>
+			<button class="buttons" type="submit" name="btn_save">Register!</button>
+		</form>
+
+		<br> <span th:text="${messageRegister}"></span>
+
+	</div>
+
+</body>
+</html>
