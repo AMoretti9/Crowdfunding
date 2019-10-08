@@ -2,7 +2,7 @@ language: java
 
 addons:
   sonarcloud:
-    organization: amoretti9-github
+    organization: AMoretti9-github
     token:
       secure: $SONAR_TOKEN
       
