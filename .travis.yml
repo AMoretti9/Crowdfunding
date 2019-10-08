@@ -34,4 +34,4 @@ cache:
   
 script:
   #- git fetch --unshallow
-  - ./mvnw clean verify $MAVEN_ARGS
+  - ./crowdfunding/mvnw clean verify $MAVEN_ARGS
