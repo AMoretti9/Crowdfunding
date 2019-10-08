@@ -18,6 +18,27 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<skip.unit-tests>false</skip.unit-tests>
+		
+		<!-- For SonarQube -->
+    <sonar.coverage.jacoco.xmlReportPaths>
+      ${project.reporting.outputDirectory}/jacoco/jacoco.xml
+    </sonar.coverage.jacoco.xmlReportPaths>
+    <!-- Also collects integration tests -->
+    <sonar.junit.reportPaths>
+      ${project.build.directory}/surefire-reports,
+      ${project.build.directory}/failsafe-reports
+    </sonar.junit.reportPaths>
+    <!-- Also scans HTML files -->
+    <sonar.sources>
+      pom.xml,
+      ${project.build.sourceDirectory},
+      ${basedir}/src/main/resources
+    </sonar.sources>
+    <!-- Exclude non covered files -->
+    <sonar.coverage.exclusions>
+      **/*Application.*,
+      **/model/*
+    </sonar.coverage.exclusions>
 	</properties>
 
 	<dependencies>
