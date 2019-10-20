@@ -101,6 +101,7 @@
   position: relative;
   z-index: 599;
   cursor: default;
+  background-color: #F5F5F5;
 }
 
 #cssmenu > ul ul li {
@@ -170,10 +171,7 @@
   border-bottom: 1px solid #ebebeb;
   font-size: 12px;
 }
-#cssmenu > ul li.hover,
-#cssmenu > ul li:hover {
-  background-color: #F5F5F5;
-}
+
 #cssmenu > ul > li.hover,
 #cssmenu > ul > li:hover {
   background-color: #3fa338;
