@@ -90,10 +90,6 @@
   margin: 0;
   padding: 0;
 }
-#cssmenu > ul {
-  position: relative;
-  z-index: 597;
-}
 #cssmenu > ul li {
   float: left;
   min-height: 1px;
@@ -138,6 +134,8 @@
 }
 /* Theme Styles */
 #cssmenu > ul {
+	position: relative;
+  z-index: 597;
   border-top: 4px solid #3fa338;
   font-family: Calibri, Tahoma, Arial, sans-serif;
   font-size: 14px;
