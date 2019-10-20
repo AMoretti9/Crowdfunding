@@ -45,6 +45,7 @@
 		</sonar.issue.ignore.multicriteria.e1.ruleKey>
 		<sonar.issue.ignore.multicriteria.e1.resourceKey>
 			**/FundWebControllerE2E.java
+			**/UserWebControllerE2E.java
 		</sonar.issue.ignore.multicriteria.e1.resourceKey>
 	</properties>
 
