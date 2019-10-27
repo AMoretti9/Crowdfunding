@@ -152,7 +152,7 @@ public class ApplicationWebController {
 		
 	}
 		
-	@GetMapping("/myfund/{id_fund}")
+	@GetMapping("/myfund/{idFund}")
 	public String editMyFund(@PathVariable long idFund, Model model) {
 		
 		Fund fundById = fundService.getFundById(idFund);
@@ -167,7 +167,7 @@ public class ApplicationWebController {
 		return FUND;
 	}
 	
-	@GetMapping("/userfund/{id_fund}")
+	@GetMapping("/userfund/{idFund}")
 	public String editUserFund(@PathVariable Long idFund, @ModelAttribute("user") User user, Model model) {
 		Fund fundById = fundService.getFundById(idFund);
 		model.addAttribute("fundAttribute", fundById);
