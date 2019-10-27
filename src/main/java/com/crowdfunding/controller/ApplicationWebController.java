@@ -27,6 +27,9 @@ public class ApplicationWebController {
 	private static final String REGISTER = "register";
 	private static final String FUND = "fund";
 	private static final String REDIRECT = "redirect:/";
+	
+	private static final String CLOSABLE = "closable";
+	private static final String EDITABLE = "myFundEditable";
 
 
 	@Autowired
@@ -154,12 +157,12 @@ public class ApplicationWebController {
 		
 		Fund fundById = fundService.getFundById(id_fund);
 		model.addAttribute("fundAttribute", fundById);
-		model.addAttribute("closable", "YES");
+		model.addAttribute(CLOSABLE, "YES");
 		//donate no
 		if(fundById.getMoney()== 0.0) {
-			model.addAttribute("myFundEditable", "YES");
+			model.addAttribute(EDITABLE, "YES");
 		}else {
-			model.addAttribute("myFundEditable", "NO");
+			model.addAttribute(EDITABLE, "NO");
 		}
 		return FUND;
 	}
@@ -168,12 +171,12 @@ public class ApplicationWebController {
 	public String editUserFund(@PathVariable Long id_fund, @ModelAttribute("user") User user, Model model) {
 		Fund fundById = fundService.getFundById(id_fund);
 		model.addAttribute("fundAttribute", fundById);
-		model.addAttribute("myFundEditable", "NO");
+		model.addAttribute(EDITABLE, "NO");
 		model.addAttribute("donate", "YES");
 		if(user.getRole() == 1) {
-			model.addAttribute("closable", "NO");
+			model.addAttribute(CLOSABLE, "NO");
 		} else {
-			model.addAttribute("closable", "YES");
+			model.addAttribute(CLOSABLE, "YES");
 		}
 		
 		return FUND;
@@ -201,7 +204,6 @@ public class ApplicationWebController {
 		
 		fundService.donateMoneyToFund(donation, fund.getId_fund());
 		
-		System.out.println("Donation of " + donation + ", in Fund: " + fund.toString());
 		return home(model, user);
 	}
 	
