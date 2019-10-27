@@ -29,23 +29,23 @@ public class FundServiceRepositoryIT {
 	public void testFundServiceCanInsertIntoRepository() {
 		Fund saved = fundService.insertNewFund(
 				new Fund(null, "test fund", 0.0, 1, 1));
-		assertThat(fundRepo.findById(saved.getId_fund())).isPresent();
+		assertThat(fundRepo.findById(saved.getIdFund())).isPresent();
 	}
 	
 	@Test
 	public void testFundServiceCanUpdateStateInRepositoryAsUser() {
 		
 		Fund saved = fundRepo.save(new Fund(null, "test fund", 0.0, 1, 1));
-		fundService.userClosesFund(saved.getId_fund());
-		assertThat(fundRepo.findById(saved.getId_fund()).get().getState())
+		fundService.userClosesFund(saved.getIdFund());
+		assertThat(fundRepo.findById(saved.getIdFund()).get().getState())
 			.isEqualTo(2);
 	}
 	
 	@Test
 	public void testFundServiceCanUpdateStateInRepositoryAsAdmin() {
 		Fund saved = fundRepo.save(new Fund(null, "test fund", 0.0, 1, 1));
-		fundService.adminClosesFund(saved.getId_fund());
-		assertThat(fundRepo.findById(saved.getId_fund()).get().getState())
+		fundService.adminClosesFund(saved.getIdFund());
+		assertThat(fundRepo.findById(saved.getIdFund()).get().getState())
 			.isEqualTo(3);
 	}
 
@@ -53,20 +53,20 @@ public class FundServiceRepositoryIT {
 	public void testFundServiceCanUpdateFundIntoRepository() {
 		Fund saved = fundRepo
 				.save(new Fund(null,"text fund", 0.0, 1, 1));
-		Fund replacement = new Fund(saved.getId_fund(), "new text", 0.0, 1, 1);
+		Fund replacement = new Fund(saved.getIdFund(), "new text", 0.0, 1, 1);
 		
 		replacement.setVersion(saved.getVersion());
 		
-		Fund modified = fundService.updateFundById(saved.getId_fund(), replacement);
+		Fund modified = fundService.updateFundById(saved.getIdFund(), replacement);
 			
-		assertThat(fundRepo.findById(saved.getId_fund()).get()).isEqualTo(modified);
+		assertThat(fundRepo.findById(saved.getIdFund()).get()).isEqualTo(modified);
 	}
 	
 	@Test
 	public void testFundServiceCanUpdateMoneyByDonation() {
 		Fund saved = fundRepo.save(new Fund(null, "test fund", 0.0, 1, 1));
-		fundService.donateMoneyToFund(5.0, saved.getId_fund());
-		assertThat(fundRepo.findById(saved.getId_fund()).get().getMoney())
+		fundService.donateMoneyToFund(5.0, saved.getIdFund());
+		assertThat(fundRepo.findById(saved.getIdFund()).get().getMoney())
 			.isEqualTo(5.0);
 	}
 }

@@ -83,12 +83,12 @@ public class ApplicationWebController {
 	@PostMapping("/login-user")
 	public String loginUser(Model model, @ModelAttribute("username") String username,
 			@ModelAttribute("password") String password, @ModelAttribute("user") User user) {
-		User UserFound = userService.getUserByUsernameAndPassword(username, password);
-		if (UserFound != null) {
-			user.setId(UserFound.getId());
-			user.setUsername(UserFound.getUsername());
-			user.setPassword(UserFound.getPassword());
-			user.setRole(UserFound.getRole());
+		User userFound = userService.getUserByUsernameAndPassword(username, password);
+		if (userFound != null) {
+			user.setId(userFound.getId());
+			user.setUsername(userFound.getUsername());
+			user.setPassword(userFound.getPassword());
+			user.setRole(userFound.getRole());
 			return home(model, user);
 		} else {
 			model.addAttribute("messageLogin", "Login incorrect or Account not present");
@@ -107,7 +107,7 @@ public class ApplicationWebController {
 	}
 	
 	@GetMapping("/my-funds")
-	public String ActionMyFunds(Model model, @ModelAttribute("user") User user) {
+	public String actionMyFunds(Model model, @ModelAttribute("user") User user) {
 		model.addAttribute("fund", new Fund());
 		user.setId(user.getId());
 		user.setUsername(user.getUsername());
@@ -115,7 +115,7 @@ public class ApplicationWebController {
 	}
 	
 	@GetMapping("/users-funds")
-	public String ActionUsersFunds(Model model, @ModelAttribute("user") User user) {
+	public String actionUsersFunds(Model model, @ModelAttribute("user") User user) {
 		user.setId(user.getId());
 		return usersFunds(model, user);
 	}
@@ -185,16 +185,16 @@ public class ApplicationWebController {
 	@PostMapping("/closes")
 	public String userClosesFund(Model model, Fund fund, @ModelAttribute("user") User user) {
 		if(user.getRole() == 1) {
-			fundService.userClosesFund(fund.getId_fund());
+			fundService.userClosesFund(fund.getIdFund());
 		} else {
-			fundService.adminClosesFund(fund.getId_fund());
+			fundService.adminClosesFund(fund.getIdFund());
 		}
 		return home(model, user);
 	}
 	
 	@PostMapping("/edit-subject")
 	public String editFundSubject(Model model, Fund fund, @ModelAttribute("user") User user) {
-		final Long id = fund.getId_fund();
+		final Long id = fund.getIdFund();
 		fundService.updateFundById(id, fund);
 		return home(model, user);
 	}
@@ -202,7 +202,7 @@ public class ApplicationWebController {
 	@PostMapping("/action/donate")
 	public String donateMoney(Model model, @ModelAttribute("donation") Double donation, Fund fund, @ModelAttribute("user") User user) {
 		
-		fundService.donateMoneyToFund(donation, fund.getId_fund());
+		fundService.donateMoneyToFund(donation, fund.getIdFund());
 		
 		return home(model, user);
 	}

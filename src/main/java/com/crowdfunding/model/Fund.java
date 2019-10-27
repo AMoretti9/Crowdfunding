@@ -11,7 +11,7 @@ import javax.persistence.Version;
 public class Fund {
 	
 	@Id @GeneratedValue
-	private Long id_fund;
+	private Long idFund;
 	
 	@Version
     private Long version;
@@ -28,20 +28,20 @@ public class Fund {
 		// required for serialization/deserialization
 	}
 	
-	public Fund(Long id_fund, String subject, Double money, Integer state, Integer owner) {
-		this.id_fund=id_fund;
+	public Fund(Long idFund, String subject, Double money, Integer state, Integer owner) {
+		this.idFund=idFund;
 		this.subject=subject;
 		this.money=money;
 		this.state=state;
 		this.owner=owner;
 	}
 	
-	public Long getId_fund() {
-		return id_fund;
+	public Long getIdFund() {
+		return idFund;
 	}
 	
-	public void setId_fund(Long id_fund) {
-		this.id_fund=id_fund;
+	public void setIdFund(Long idFund) {
+		this.idFund=idFund;
 	}
 	
 	public Long getVersion() {
@@ -85,7 +85,7 @@ public class Fund {
 	
 	@Override
 	public int hashCode() {
-		return Objects.hash(id_fund, subject, money, state, owner);
+		return Objects.hash(idFund, subject, money, state, owner);
 	}
 	
 	@Override
@@ -100,12 +100,12 @@ public class Fund {
 			return false;
 		}
 		Fund other = (Fund) obj;
-		return Objects.equals(id_fund, other.id_fund) && Objects.equals(subject, other.subject) && Objects.equals(money,  other.money) &&
+		return Objects.equals(idFund, other.idFund) && Objects.equals(subject, other.subject) && Objects.equals(money,  other.money) &&
 				Objects.equals(state,  other.state) && Objects.equals(owner,  other.owner);
 	}
 
 	@Override
 	public String toString() {
-		return "Fund [id=" + id_fund + ", subject=" + subject + ", money=" + money + ", state=" + state + ", owner=" + owner + "]";
+		return "Fund [id=" + idFund + ", subject=" + subject + ", money=" + money + ", state=" + state + ", owner=" + owner + "]";
 	}
 }

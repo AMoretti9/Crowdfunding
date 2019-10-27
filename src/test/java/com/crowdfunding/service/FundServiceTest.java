@@ -44,7 +44,7 @@ public class FundServiceTest {
 		assertThat(result).isSameAs(saved);
 		
 		InOrder inOrder = inOrder(toSave, fundRepo);
-		inOrder.verify(toSave).setId_fund(null);
+		inOrder.verify(toSave).setIdFund(null);
 		inOrder.verify(fundRepo).save(toSave);
 	}
 	
@@ -129,7 +129,7 @@ public class FundServiceTest {
 		assertThat(result).isSameAs(replaced);
 
 		InOrder inOrder = inOrder(replacement, fundRepo);
-		inOrder.verify(replacement).setId_fund(1L);
+		inOrder.verify(replacement).setIdFund(1L);
 		inOrder.verify(fundRepo).save(replacement);
 	}
 }

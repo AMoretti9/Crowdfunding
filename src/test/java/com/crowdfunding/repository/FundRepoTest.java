@@ -53,8 +53,8 @@ public class FundRepoTest {
 	public void test_UserClosesFund() {
 		Fund fund = new Fund(null, "test fund", 5.0, 1, 1);
 		Fund saved=fundRepo.save(fund);
-		fundRepo.userClosesFund(saved.getId_fund());
-		Optional<Fund> found = fundRepo.findById(saved.getId_fund());
+		fundRepo.userClosesFund(saved.getIdFund());
+		Optional<Fund> found = fundRepo.findById(saved.getIdFund());
 		assertThat(found.get().getState()).isEqualTo(2);
 	}
 	
@@ -62,8 +62,8 @@ public class FundRepoTest {
 	public void test_AdminClosesFund() {
 		Fund fund = new Fund(null, "test fund", 5.0, 1, 1);
 		Fund saved = fundRepo.save(fund);
-		fundRepo.adminClosesFund(saved.getId_fund());
-		Optional<Fund> found = fundRepo.findById(saved.getId_fund());
+		fundRepo.adminClosesFund(saved.getIdFund());
+		Optional<Fund> found = fundRepo.findById(saved.getIdFund());
 		assertThat(found.get().getState()).isEqualTo(3);
 	}
 	
@@ -71,8 +71,8 @@ public class FundRepoTest {
 	public void test_donateMoneyToFund() {
 		Fund fund = new Fund(null, "test fund", 5.5, 1, 1);
 		Fund saved = fundRepo.save(fund);
-		fundRepo.donateMoneyToFund(3.5, saved.getId_fund());
-		Optional<Fund> found = fundRepo.findById(saved.getId_fund());
+		fundRepo.donateMoneyToFund(3.5, saved.getIdFund());
+		Optional<Fund> found = fundRepo.findById(saved.getIdFund());
 		assertThat(found.get().getMoney()).isEqualTo(9.0);
 	}
 

@@ -11,7 +11,7 @@
 
 	<form class="form-center" name="editMyFund_form" id="editMyFund_form"
 		th:action="@{/edit-subject}" th:object="${fundAttribute}" method="post">
-		<input type="hidden" th:field="*{id_fund}"> <input
+		<input type="hidden" th:field="*{idFund}"> <input
 				type="hidden" th:field="*{version}">
 		<textarea rows="3" cols="45" th:field="*{subject}" maxlength="135"
 			form="editMyFund_form"></textarea>
@@ -28,7 +28,7 @@
 		<form class="form-center" name="userCloses_form" th:action="@{/closes}"
 			th:object="${fundAttribute}" method="post">
 
-			<input type="hidden" th:field="*{id_fund}"> <input
+			<input type="hidden" th:field="*{idFund}"> <input
 				type="hidden" th:field="*{version}"> <input type="hidden"
 				th:field="*{subject}" /> <input type="hidden" th:field="*{money}" />
 			<input type="hidden" th:field="*{state}" /> <input type="hidden"
@@ -44,7 +44,7 @@
 			Insert the amount of money and make a donation!
 			<div>
 				Money to Donate:  <input type="number" step="0.5" min="0" id="donation" name="donation" required>
-				<input type="hidden" th:field="*{id_fund}"> 
+				<input type="hidden" th:field="*{idFund}"> 
 				<input type="hidden" th:field="*{subject}">
 				<input type="hidden" th:field="*{money}">
 				<input type="hidden" th:field="*{state}">

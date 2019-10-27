@@ -50,14 +50,14 @@
 				</thead>
 				<tbody>
 					<tr th:each="fund : ${myFunds}">
-						<td th:text="${fund.id_fund}"></td>
+						<td th:text="${fund.idFund}"></td>
 						<td class="auto-head"
 							th:text="${fund.subject}"></td>
 						<td th:text="${fund.money}"></td>
 						<td><span th:if="${fund.state} == 1">OPEN</span> <span
 							th:if="${fund.state} == 2">CLOSED</span> <span
 							th:if="${fund.state} == 3">CLOSED by Admin</span></td>
-						<td><a th:href="@{'/myfund/' + ${fund.id_fund}}">Enter</a></td>
+						<td><a th:href="@{'/myfund/' + ${fund.idFund}}">Enter</a></td>
 					</tr>
 				</tbody>
 			</table>
@@ -69,7 +69,7 @@
 			text area.<br>
 			<form class="form-center" name="fund_form" id="fund_form" th:action="@{/save-fund}"
 				th:object="${fund}" method="post">
-				<input type="hidden" th:field="*{id_fund}"> <input
+				<input type="hidden" th:field="*{idFund}"> <input
 					type="hidden" th:value="${activeId}" th:name="owner" th:id="owner" />
 				<input type="hidden" th:value="${0}" th:name="money" th:id="money" />
 				<input type="hidden" th:value="${1}" th:name="state" th:id="state" />
@@ -102,11 +102,11 @@
 				</thead>
 				<tbody>
 					<tr th:each="uFund : ${usersFunds}">
-						<td th:text="${uFund.id_fund}"></td>
+						<td th:text="${uFund.idFund}"></td>
 						<td class="auto-head"
 							th:text="${uFund.subject}"></td>
 						<td th:text="${uFund.money}"></td>
-						<td><a th:href="@{'/userfund/' + ${uFund.id_fund}}">Enter</a></td>
+						<td><a th:href="@{'/userfund/' + ${uFund.idFund}}">Enter</a></td>
 					</tr>
 				</tbody>
 			</table>

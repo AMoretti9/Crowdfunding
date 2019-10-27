@@ -101,7 +101,7 @@ public class FundWebControllerIT {
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("myFund_table")));
 		assertThat(driver.findElement(By.id("myFund_table")).getText())
-		.contains(fund1.getId_fund().toString(), "text fund", "0.0", "OPEN", "Enter");
+		.contains(fund1.getIdFund().toString(), "text fund", "0.0", "OPEN", "Enter");
 		driver.findElement(By.linkText("Enter")).click();
 		
 		//user modify the subject
@@ -116,7 +116,7 @@ public class FundWebControllerIT {
 		//verify the change into My Funds table
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("myFund_table")));
 		assertThat(driver.findElement(By.id("myFund_table")).getText())
-		.contains(fund1.getId_fund().toString(), "NEW text fund", "0.0", "OPEN", "Enter");
+		.contains(fund1.getIdFund().toString(), "NEW text fund", "0.0", "OPEN", "Enter");
 	}
 	
 	@Test
@@ -140,7 +140,7 @@ public class FundWebControllerIT {
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("usersFund_table")));
 		assertThat(driver.findElement(By.id("usersFund_table")).getText())
-		.contains(fund1.getId_fund().toString(), "text fund", "0.0", "Enter");
+		.contains(fund1.getIdFund().toString(), "text fund", "0.0", "Enter");
 		driver.findElement(By.linkText("Enter")).click();
 		
 		//user make a donation
@@ -154,7 +154,7 @@ public class FundWebControllerIT {
 		//verify the change into Users Funds table
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("usersFund_table")));
 		assertThat(driver.findElement(By.id("usersFund_table")).getText())
-		.contains(fund1.getId_fund().toString(), "text fund", "10.5", "Enter");
+		.contains(fund1.getIdFund().toString(), "text fund", "10.5", "Enter");
 	}
 	
 	@Test
@@ -178,7 +178,7 @@ public class FundWebControllerIT {
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("myFund_table")));
 		assertThat(driver.findElement(By.id("myFund_table")).getText())
-		.contains(fund1.getId_fund().toString(), "text fund", "0.0", "OPEN", "Enter");
+		.contains(fund1.getIdFund().toString(), "text fund", "0.0", "OPEN", "Enter");
 		driver.findElement(By.linkText("Enter")).click();
 		
 		//user closes own fund
@@ -191,7 +191,7 @@ public class FundWebControllerIT {
 		//verify that the fund is closed into My Funds table
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("myFund_table")));
 		assertThat(driver.findElement(By.id("myFund_table")).getText())
-		.contains(fund1.getId_fund().toString(), "text fund", "0.0", "CLOSED", "Enter");
+		.contains(fund1.getIdFund().toString(), "text fund", "0.0", "CLOSED", "Enter");
 	}
 	
 	@Test
@@ -217,7 +217,7 @@ public class FundWebControllerIT {
 		WebDriverWait wait = new WebDriverWait(driver, 10);
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("usersFund_table")));
 		assertThat(driver.findElement(By.id("usersFund_table")).getText())
-		.contains(fund1.getId_fund().toString(), "text fund", "0.0", "Enter");
+		.contains(fund1.getIdFund().toString(), "text fund", "0.0", "Enter");
 		driver.findElement(By.linkText("Enter")).click();
 		
 		//admin closes other user's fund
@@ -239,7 +239,7 @@ public class FundWebControllerIT {
 		//user verify that own fund into My Funds table is Closed by Admin
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("myFund_table")));
 		assertThat(driver.findElement(By.id("myFund_table")).getText())
-		.contains(fund1.getId_fund().toString(), "text fund", "0.0", "CLOSED by Admin", "Enter");
+		.contains(fund1.getIdFund().toString(), "text fund", "0.0", "CLOSED by Admin", "Enter");
 		
 	}
 

@@ -19,16 +19,16 @@ public interface FundRepo extends JpaRepository<Fund, Long> {
 
 	@Modifying(flushAutomatically = true, clearAutomatically = true)
 	@Transactional
-	@Query("update Fund f set f.state = 2 where f.id_fund = :fundid")
+	@Query("update Fund f set f.state = 2 where f.idFund = :fundid")
 	void userClosesFund(@Param("fundid") Long id);
 
 	@Modifying(flushAutomatically = true, clearAutomatically = true)
 	@Transactional
-	@Query("update Fund f set f.state = 3 where f.id_fund = :fundid")
+	@Query("update Fund f set f.state = 3 where f.idFund = :fundid")
 	void adminClosesFund(@Param("fundid") Long id);
 	
 	@Modifying(flushAutomatically = true, clearAutomatically = true)
 	@Transactional
-	@Query("update Fund f set f.money = (f.money + :donation) where f.id_fund = :fundid")
+	@Query("update Fund f set f.money = (f.money + :donation) where f.idFund = :fundid")
 	void donateMoneyToFund(@Param("donation") Double donation, @Param("fundid") Long id);
 }

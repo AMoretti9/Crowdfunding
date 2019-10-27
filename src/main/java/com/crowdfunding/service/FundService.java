@@ -24,7 +24,7 @@ public class FundService {
 	
 	public Fund insertNewFund(Fund fund) {
 		
-		fund.setId_fund(null);
+		fund.setIdFund(null);
 		return fundRepo.save(fund);
 		
 	}
@@ -48,7 +48,7 @@ public class FundService {
 	@Modifying(flushAutomatically = true, clearAutomatically = true)
 	@Transactional
 	public Fund updateFundById (long id, Fund replacement) {
-		replacement.setId_fund(id);
+		replacement.setIdFund(id);
 		return fundRepo.save(replacement);
 	}
 
