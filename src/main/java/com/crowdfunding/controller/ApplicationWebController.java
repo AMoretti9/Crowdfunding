@@ -153,9 +153,9 @@ public class ApplicationWebController {
 	}
 		
 	@GetMapping("/myfund/{id_fund}")
-	public String editMyFund(@PathVariable long id_fund, Model model) {
+	public String editMyFund(@PathVariable long idFund, Model model) {
 		
-		Fund fundById = fundService.getFundById(id_fund);
+		Fund fundById = fundService.getFundById(idFund);
 		model.addAttribute("fundAttribute", fundById);
 		model.addAttribute(CLOSABLE, "YES");
 		//donate no
@@ -168,8 +168,8 @@ public class ApplicationWebController {
 	}
 	
 	@GetMapping("/userfund/{id_fund}")
-	public String editUserFund(@PathVariable Long id_fund, @ModelAttribute("user") User user, Model model) {
-		Fund fundById = fundService.getFundById(id_fund);
+	public String editUserFund(@PathVariable Long idFund, @ModelAttribute("user") User user, Model model) {
+		Fund fundById = fundService.getFundById(idFund);
 		model.addAttribute("fundAttribute", fundById);
 		model.addAttribute(EDITABLE, "NO");
 		model.addAttribute("donate", "YES");
