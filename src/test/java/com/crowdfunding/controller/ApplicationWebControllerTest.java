@@ -437,7 +437,7 @@ public class ApplicationWebControllerTest {
 		
 		if(activeUser.getRole() == 1) {
 		mvc.perform(post("/closes").sessionAttrs(sessionattr)
-				.param("id_fund", "1")
+				.param("idFund", "1")
 				.param("subject", "test fund")
 				.param("money", "0.0")
 				.param("state", "1")
@@ -458,7 +458,7 @@ public class ApplicationWebControllerTest {
 		
 		if(admin.getRole() == 2) {
 		mvc.perform(post("/closes").sessionAttrs(sessionattr)
-				.param("id_fund", "1")
+				.param("idFund", "1")
 				.param("subject", "test fund")
 				.param("money", "0.0")
 				.param("state", "1")
@@ -471,7 +471,7 @@ public class ApplicationWebControllerTest {
 	@Test
 	public void test_updateSubjectFund() throws Exception{
 		mvc.perform(post("/edit-subject")
-				.param("id_fund", "1")
+				.param("idFund", "1")
 				.param("subject", "test newSub")
 				.param("money", "0.0")
 				.param("state", "1")
@@ -494,7 +494,7 @@ public class ApplicationWebControllerTest {
 		if(activeUser.getRole() == 1) {
 		mvc.perform(post("/action/donate").sessionAttrs(sessionattr)
 				.param("donation", "5.0")
-				.param("id_fund", "1")
+				.param("idFund", "1")
 				.param("subject", "test fund")
 				.param("money", "0.0")
 				.param("state", "1")
