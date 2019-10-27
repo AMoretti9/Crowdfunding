@@ -21,6 +21,13 @@ import com.crowdfunding.service.UserService;
 @RequestMapping("/")
 @SessionAttributes("user")
 public class ApplicationWebController {
+	
+	private static final String HOME = "home";
+	private static final String INDEX = "index";
+	private static final String REGISTER = "register";
+	private static final String FUND = "fund";
+	private static final String REDIRECT = "redirect:/";
+
 
 	@Autowired
 	private UserService userService;
@@ -35,14 +42,14 @@ public class ApplicationWebController {
 	
 	@GetMapping("/")
 	public String index(Model model) {
-		return "index";
+		return INDEX;
 	}
 	
 	
 	public String home(Model model, @ModelAttribute("user") User user) {
 		model.addAttribute("MODE", "MODE_HOME");
 		model.addAttribute("welcomeUser", "Welcome, " + user.getUsername());
-		return "home";
+		return HOME;
 	}
 	
 	public String myFunds(Model model, @ModelAttribute("user") User user) {
@@ -55,7 +62,7 @@ public class ApplicationWebController {
 		model.addAttribute("MyFundsUser", "MY FUNDS  -  (Personal ID: " + user.getId() + ", Username: " + user.getUsername() + ")");
 		
 		
-		return "home";
+		return HOME;
 	}
 	
 	public String usersFunds(Model model, @ModelAttribute("user") User user) {
@@ -66,7 +73,7 @@ public class ApplicationWebController {
 		model.addAttribute("MODE", "MODE_USERSFUNDS");
 		
 		
-		return "home";
+		return HOME;
 	}
 	
 	
@@ -82,13 +89,13 @@ public class ApplicationWebController {
 			return home(model, user);
 		} else {
 			model.addAttribute("messageLogin", "Login incorrect or Account not present");
-			return "index";
+			return INDEX;
 		}
 	}
 	
 	@GetMapping("/action/logout")
 	public String actionLogout(Model model) {
-		return "index";
+		return INDEX;
 	}
 	
 	@GetMapping("/action/home")
@@ -114,7 +121,7 @@ public class ApplicationWebController {
 	public String register(Model model) {
 		model.addAttribute("user", new User());
 		model.addAttribute("messageRegister", "");
-		return "register";
+		return REGISTER;
 	}
 	
 	@PostMapping("/save-user")
@@ -127,10 +134,10 @@ public class ApplicationWebController {
 			if((user.getUsername()).equals("admin")) {
 				userService.updateRoleToAdmin(user.getId());
 			}
-			return "redirect:/";
+			return REDIRECT;
 		} else {
 			model.addAttribute("messageRegister", "Username already in use! Please change it");
-			return "register";
+			return REGISTER;
 		}
 	}
 	
@@ -154,7 +161,7 @@ public class ApplicationWebController {
 		}else {
 			model.addAttribute("myFundEditable", "NO");
 		}
-		return "fund";
+		return FUND;
 	}
 	
 	@GetMapping("/userfund/{id_fund}")
@@ -169,7 +176,7 @@ public class ApplicationWebController {
 			model.addAttribute("closable", "YES");
 		}
 		
-		return "fund";
+		return FUND;
 	}
 
 	@PostMapping("/closes")
