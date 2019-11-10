@@ -41,7 +41,7 @@ public class FundWebControllerE2E {
 		try {
 			Class.forName("org.h2.Driver");
 			System.out.println("connecting to db");
-			Connection conn = DriverManager.getConnection("jdbc:h2:~/mydb;AUTO_SERVER=TRUE", "sa", "");
+			Connection conn = DriverManager.getConnection("jdbc:h2:~/mydb;AUTO_SERVER=TRUE;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE", "sa", "");
 			Statement stmt = conn.createStatement();
 			String createUser = "create table if not exists user";
 			stmt.executeUpdate(createUser);
