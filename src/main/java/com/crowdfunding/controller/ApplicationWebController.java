@@ -39,7 +39,6 @@ public class ApplicationWebController {
 	@Autowired
 	private FundService fundService;
 	
-	private SessionStatus status;
 	
 	@ModelAttribute("user")
 	public User  setupUserForm() {
@@ -101,7 +100,6 @@ public class ApplicationWebController {
 	
 	@GetMapping("/action/logout")
 	public String actionLogout(Model model) {
-		status.setComplete();
 		return INDEX;
 	}
 	
