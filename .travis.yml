@@ -33,5 +33,5 @@ cache:
   - $HOME/.sonar/cache
   
 script:
-  #- git fetch --unshallow
+  - git fetch --unshallow
   - mvn clean verify $MAVEN_ARGS
