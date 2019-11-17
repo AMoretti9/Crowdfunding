@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 
 import com.crowdfunding.model.Fund;
 import com.crowdfunding.model.User;
@@ -31,8 +30,6 @@ public class ApplicationWebController {
 	
 	private static final String CLOSABLE = "closable";
 	private static final String EDITABLE = "myFundEditable";
-	
-	private SessionStatus status;
 
 
 	@Autowired
@@ -102,7 +99,6 @@ public class ApplicationWebController {
 	
 	@GetMapping("/action/logout")
 	public String actionLogout(Model model) {
-		status.setComplete();
 		return INDEX;
 	}
 	
