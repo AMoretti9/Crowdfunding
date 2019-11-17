@@ -1,5 +1,7 @@
 package com.crowdfunding.dto;
 
+import com.crowdfunding.model.User;
+
 public class UserDTO {
 	
 	private Long id;
@@ -53,4 +55,7 @@ public class UserDTO {
 		this.role=role;
 	}
 	
+	public User getUser() {
+		return new User(this.id, this.username, this.password, this.role);
+	}
 }

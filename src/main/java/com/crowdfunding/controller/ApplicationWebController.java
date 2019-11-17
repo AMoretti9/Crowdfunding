@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import com.crowdfunding.dto.UserDTO;
 import com.crowdfunding.model.Fund;
 import com.crowdfunding.model.User;
 import com.crowdfunding.service.FundService;
@@ -51,7 +50,7 @@ public class ApplicationWebController {
 	}
 	
 	
-	public String home(Model model, @ModelAttribute("user") UserDTO user) {
+	public String home(Model model, @ModelAttribute("user") User user) {
 		model.addAttribute("MODE", "MODE_HOME");
 		model.addAttribute("welcomeUser", "Welcome, " + user.getUsername());
 		return HOME;
@@ -84,7 +83,7 @@ public class ApplicationWebController {
 	
 	@PostMapping("/login-user")
 	public String loginUser(Model model, @ModelAttribute("username") String username,
-			@ModelAttribute("password") String password, @ModelAttribute("user") UserDTO user) {
+			@ModelAttribute("password") String password, @ModelAttribute("user") User user) {
 		User userFound = userService.getUserByUsernameAndPassword(username, password);
 		if (userFound != null) {
 			user.setId(userFound.getId());
@@ -104,7 +103,7 @@ public class ApplicationWebController {
 	}
 	
 	@GetMapping("/action/home")
-	public String actionHome(Model model, @ModelAttribute("user") UserDTO user) {
+	public String actionHome(Model model, @ModelAttribute("user") User user) {
 		return home(model, user);
 	}
 	
@@ -185,7 +184,7 @@ public class ApplicationWebController {
 	}
 
 	@PostMapping("/closes")
-	public String userClosesFund(Model model, Fund fund, @ModelAttribute("user") UserDTO user) {
+	public String userClosesFund(Model model, Fund fund, @ModelAttribute("user") User user) {
 		if(user.getRole() == 1) {
 			fundService.userClosesFund(fund.getIdFund());
 		} else {
@@ -195,14 +194,14 @@ public class ApplicationWebController {
 	}
 	
 	@PostMapping("/edit-subject")
-	public String editFundSubject(Model model, Fund fund, @ModelAttribute("user") UserDTO user) {
+	public String editFundSubject(Model model, Fund fund, @ModelAttribute("user") User user) {
 		final Long id = fund.getIdFund();
 		fundService.updateFundById(id, fund);
 		return home(model, user);
 	}
 	
 	@PostMapping("/action/donate")
-	public String donateMoney(Model model, @ModelAttribute("donation") Double donation, Fund fund, @ModelAttribute("user") UserDTO user) {
+	public String donateMoney(Model model, @ModelAttribute("donation") Double donation, Fund fund, @ModelAttribute("user") User user) {
 		
 		fundService.donateMoneyToFund(donation, fund.getIdFund());
 		
