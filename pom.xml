@@ -37,7 +37,8 @@
 		<!-- Exclude non covered files -->
 		<sonar.coverage.exclusions>
 			**/*Application.*,
-			**/model/*
+			**/model/*,
+			**/dto/*
 		</sonar.coverage.exclusions>
 
 		<sonar.issue.ignore.multicriteria>e1,e2,e3,e4</sonar.issue.ignore.multicriteria>
@@ -197,6 +198,7 @@
 				<configuration>
 					<excludes>
 						<exclude>**/*Application.*</exclude>
+						<exclude>**/dto/*</exclude>
 						<exclude>**/model/*</exclude>
 					</excludes>
 				</configuration>
@@ -240,7 +242,8 @@
 					</targetClasses>
 					<excludedClasses>
 						<param>com.crowdfunding.model.*</param>
-						<param>ccom.crowdfunding.CrowdfundingApplication</param>
+						<param>com.crowdfunding.CrowdfundingApplication</param>
+						<param>com.crowdfunding.dto.*</param>
 					</excludedClasses>
 					<excludedMethods>
 
