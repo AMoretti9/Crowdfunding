@@ -39,13 +39,14 @@
 
 		<div th:unless="${myFunds.empty}">
 			<table id="myFund_table">
+			<caption>List of your Funds</caption>
 				<thead>
 					<tr>
-						<th>ID</th>
-						<th>SUBJECT</th>
-						<th>MONEY</th>
-						<th>STATE</th>
-						<th>ACTION</th>
+						<th scope="col">ID</th>
+						<th scope="col">SUBJECT</th>
+						<th scope="col">MONEY</th>
+						<th scope="col">STATE</th>
+						<th scope="col">ACTION</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -92,12 +93,13 @@
 
 		<div th:unless="${usersFunds.empty}">
 			<table id="usersFund_table">
+			<caption>List of Funds by other Users</caption>
 				<thead>
 					<tr>
-						<th>ID</th>
-						<th>SUBJECT</th>
-						<th>MONEY</th>
-						<th>ACTION</th>
+						<th scope="col">ID</th>
+						<th scope="col">SUBJECT</th>
+						<th scope="col">MONEY</th>
+						<th scope="col">ACTION</th>
 					</tr>
 				</thead>
 				<tbody>
