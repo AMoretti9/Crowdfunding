@@ -83,13 +83,9 @@ public class ApplicationWebController {
 	
 	@PostMapping("/login-user")
 	public String loginUser(Model model, @ModelAttribute("username") String username,
-			@ModelAttribute("password") String password) {//, @ModelAttribute("user") User user) {
+			@ModelAttribute("password") String password) {
 		User userFound = userService.getUserByUsernameAndPassword(username, password);
 		if (userFound != null) {
-			//user.setId(userFound.getId());
-			//user.setUsername(userFound.getUsername());
-			//user.setPassword(userFound.getPassword());
-			//user.setRole(userFound.getRole());
 			model.addAttribute("user", userFound);
 			return home(model, userFound);
 		} else {
