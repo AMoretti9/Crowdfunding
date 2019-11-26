@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.crowdfunding.dto.UserDTO;
 import com.crowdfunding.model.Fund;
 import com.crowdfunding.model.User;
 import com.crowdfunding.service.FundService;
@@ -19,7 +21,7 @@ import com.crowdfunding.service.UserService;
 
 @Controller
 @RequestMapping("/")
-@SessionAttributes("user")
+@SessionAttributes("userdto")
 public class ApplicationWebController {
 	
 	private static final String HOME = "home";
@@ -39,9 +41,9 @@ public class ApplicationWebController {
 	private FundService fundService;
 	
 	
-	@ModelAttribute("user")
-	public User  setupUserForm() {
-		return new User();
+	@ModelAttribute("userdto")
+	public UserDTO  setupUserForm() {
+		return new UserDTO();
 	}
 	
 	@GetMapping("/")
@@ -50,28 +52,28 @@ public class ApplicationWebController {
 	}
 	
 	
-	public String home(Model model, User user) {
+	public String home(Model model, UserDTO userdto) {
 		model.addAttribute("MODE", "MODE_HOME");
-		model.addAttribute("welcomeUser", "Welcome, " + user.getUsername());
+		model.addAttribute("welcomeUser", "Welcome, " + userdto.getUsername());
 		return HOME;
 	}
 	
-	public String myFunds(Model model, User user) {
+	public String myFunds(Model model, UserDTO userdto) {
 		
-		List<Fund> myFunds = fundService.getFundByOwner((user.getId()).intValue());
+		List<Fund> myFunds = fundService.getFundByOwner((userdto.getId()).intValue());
 		
 		model.addAttribute("myFunds", myFunds);
 		model.addAttribute("MODE", "MODE_MYFUNDS");
-		model.addAttribute("activeId", user.getId());
-		model.addAttribute("MyFundsUser", "MY FUNDS  -  (Personal ID: " + user.getId() + ", Username: " + user.getUsername() + ")");
+		model.addAttribute("activeId", userdto.getId());
+		model.addAttribute("MyFundsUser", "MY FUNDS  -  (Personal ID: " + userdto.getId() + ", Username: " + userdto.getUsername() + ")");
 		
 		
 		return HOME;
 	}
 	
-	public String usersFunds(Model model,User user) {
+	public String usersFunds(Model model, UserDTO userdto) {
 		
-		List<Fund> usersFunds = fundService.getOpenFundsByOwnerNot((user.getId()).intValue());
+		List<Fund> usersFunds = fundService.getOpenFundsByOwnerNot((userdto.getId()).intValue());
 		
 		model.addAttribute("usersFunds", usersFunds);
 		model.addAttribute("MODE", "MODE_USERSFUNDS");
@@ -83,11 +85,14 @@ public class ApplicationWebController {
 	
 	@PostMapping("/login-user")
 	public String loginUser(Model model, @ModelAttribute("username") String username,
-			@ModelAttribute("password") String password) {
+			@ModelAttribute("password") String password, @ModelAttribute("userdto") UserDTO userdto) {
 		User userFound = userService.getUserByUsernameAndPassword(username, password);
 		if (userFound != null) {
-			model.addAttribute("user", userFound);
-			return home(model, userFound);
+			//model.addAttribute("user", userFound);
+			userdto.setId(userFound.getId());
+			userdto.setUsername(userFound.getUsername());
+			userdto.setRole(userFound.getRole());
+			return home(model, userdto);
 		} else {
 			model.addAttribute("messageLogin", "Login incorrect or Account not present");
 			return INDEX;
@@ -100,22 +105,20 @@ public class ApplicationWebController {
 	}
 	
 	@GetMapping("/action/home")
-	public String actionHome(Model model,User user) {
-		return home(model, user);
+	public String actionHome(Model model,@SessionAttribute("userdto") UserDTO userdto) {
+		return home(model, userdto);
 	}
 	
 	@GetMapping("/my-funds")
-	public String actionMyFunds(Model model,User user) {
+	public String actionMyFunds(Model model, @SessionAttribute("userdto") UserDTO userdto) {
 		model.addAttribute("fund", new Fund());
-		user.setId(user.getId());
-		user.setUsername(user.getUsername());
-		return myFunds(model, user);
+		return myFunds(model, userdto);
 	}
 	
 	@GetMapping("/users-funds")
-	public String actionUsersFunds(Model model,User user) {
-		user.setId(user.getId());
-		return usersFunds(model, user);
+	public String actionUsersFunds(Model model,@SessionAttribute("userdto") UserDTO userdto) {
+		
+		return usersFunds(model, userdto);
 	}
 	
 	@GetMapping("/register")
@@ -143,10 +146,10 @@ public class ApplicationWebController {
 	}
 	
 	@PostMapping("/save-fund")
-	public String saveFund(Fund fund, Model model,User user) {
+	public String saveFund(Fund fund, Model model,@SessionAttribute("userdto") UserDTO userdto) {
 		
 		fundService.insertNewFund(fund);
-		return myFunds(model, user);
+		return myFunds(model, userdto);
 		
 	}
 		
@@ -166,12 +169,12 @@ public class ApplicationWebController {
 	}
 	
 	@GetMapping("/userfund/{idFund}")
-	public String editUserFund(@PathVariable Long idFund,User user, Model model) {
+	public String editUserFund(@PathVariable Long idFund,@SessionAttribute("userdto") UserDTO userdto, Model model) {
 		Fund fundById = fundService.getFundById(idFund);
 		model.addAttribute("fundAttribute", fundById);
 		model.addAttribute(EDITABLE, "NO");
 		model.addAttribute("donate", "YES");
-		if(user.getRole() == 1) {
+		if(userdto.getRole() == 1) {
 			model.addAttribute(CLOSABLE, "NO");
 		} else {
 			model.addAttribute(CLOSABLE, "YES");
@@ -181,28 +184,28 @@ public class ApplicationWebController {
 	}
 
 	@PostMapping("/closes")
-	public String userClosesFund(Model model, Fund fund,User user) {
-		if(user.getRole() == 1) {
+	public String userClosesFund(Model model, Fund fund,@SessionAttribute("userdto") UserDTO userdto) {
+		if(userdto.getRole() == 1) {
 			fundService.userClosesFund(fund.getIdFund());
 		} else {
 			fundService.adminClosesFund(fund.getIdFund());
 		}
-		return home(model, user);
+		return home(model, userdto);
 	}
 	
 	@PostMapping("/edit-subject")
-	public String editFundSubject(Model model, Fund fund,User user) {
+	public String editFundSubject(Model model, Fund fund,@SessionAttribute("userdto") UserDTO userdto) {
 		final Long id = fund.getIdFund();
 		fundService.updateFundById(id, fund);
-		return home(model, user);
+		return home(model, userdto);
 	}
 	
 	@PostMapping("/action/donate")
-	public String donateMoney(Model model, @ModelAttribute("donation") Double donation, Fund fund,User user) {
+	public String donateMoney(Model model, @ModelAttribute("donation") Double donation, Fund fund,@SessionAttribute("userdto") UserDTO userdto) {
 		
 		fundService.donateMoneyToFund(donation, fund.getIdFund());
 		
-		return home(model, user);
+		return home(model, userdto);
 	}
 	
 }

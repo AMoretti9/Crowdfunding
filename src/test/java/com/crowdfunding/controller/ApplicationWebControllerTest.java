@@ -29,6 +29,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlPage;
 import com.crowdfunding.service.FundService;
 import com.crowdfunding.service.UserService;
 import com.crowdfunding.model.User;
+import com.crowdfunding.dto.UserDTO;
 import com.crowdfunding.model.Fund;
 
 @RunWith(SpringRunner.class)
@@ -163,7 +164,12 @@ public class ApplicationWebControllerTest {
 	
 	@Test
 	public void testBackToHomeStatus200() throws Exception {
-		ModelAndViewAssert.assertViewName(mvc.perform(get("/action/home"))
+		UserDTO activeUser = new UserDTO(1L, "myName", 1);
+		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+		
+		sessionattr.put("userdto", activeUser);
+		
+		ModelAndViewAssert.assertViewName(mvc.perform(get("/action/home").sessionAttrs(sessionattr))
 				.andReturn().getModelAndView(), "home");
 	}
 	
@@ -175,15 +181,15 @@ public class ApplicationWebControllerTest {
 	
 	@Test
 	public void testReturnHomePageAction() throws Exception {
-		User activeUser = new User(1L, "myName", "password", 1);
-		
+		//User activeUser = new User(1L, "myName", "password", 1);
+		UserDTO activeUser = new UserDTO(1L, "myName", 1);
 		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
 		
-		sessionattr.put("user", activeUser);
+		sessionattr.put("userdto", activeUser);
 		
 		mvc.perform(get("/action/home").sessionAttrs(sessionattr))
 		.andExpect(view().name("home"))
-		.andExpect(model().attributeExists("user"))
+		.andExpect(model().attributeExists("userdto"))
 		.andExpect(model().attribute("welcomeUser", "Welcome, myName"))
 		.andExpect(model().attribute("MODE", "MODE_HOME"));
 	}
@@ -192,11 +198,12 @@ public class ApplicationWebControllerTest {
 	@Test
 	public void testMyFunds_shouldShowMyFunds_whenMyFundsArePresent() throws Exception{
 		
-		User activeUser = new User(1L, "myName", "password", 1);
+		//User activeUser = new User(1L, "myName", "password", 1);
+		UserDTO activeUser = new UserDTO(1L, "myName", 1);
 		int activeId = (activeUser.getId()).intValue();
 		
 		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
-		sessionattr.put("user", activeUser);
+		sessionattr.put("userdto", activeUser);
 		
 		List<Fund> funds = asList(new Fund(1L, "test fund", 10.0, 1, 1));
 		
@@ -204,7 +211,7 @@ public class ApplicationWebControllerTest {
 		
 		mvc.perform(get("/my-funds").sessionAttrs(sessionattr))
 		.andExpect(view().name("home"))
-		.andExpect(model().attributeExists("user"))
+		.andExpect(model().attributeExists("userdto"))
 		.andExpect(model().attribute("MyFundsUser", "MY FUNDS  -  (Personal ID: 1, Username: myName)"))
 		.andExpect(model().attribute("myFunds", funds))
 		.andExpect(model().attribute("MODE", "MODE_MYFUNDS"));
@@ -213,11 +220,12 @@ public class ApplicationWebControllerTest {
 	
 	@Test
 	public void testUsersFunds_shouldShowUsersFunds_whenUsersFundsArePresent() throws Exception {
-		User activeUser = new User(1L, "myName", "password", 1);
+		//User activeUser = new User(1L, "myName", "password", 1);
+		UserDTO activeUser = new UserDTO(1L, "myName", 1);
 		int activeId = (activeUser.getId()).intValue();
 		
 		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
-		sessionattr.put("user", activeUser);
+		sessionattr.put("userdto", activeUser);
 		
 		List<Fund> usersFunds = asList(
 				new Fund(1L, "test fund", 10.0, 1, 2), 
@@ -227,7 +235,7 @@ public class ApplicationWebControllerTest {
 		
 		mvc.perform(get("/users-funds").sessionAttrs(sessionattr))
 		.andExpect(view().name("home"))
-		.andExpect(model().attributeExists("user"))
+		.andExpect(model().attributeExists("userdto"))
 		.andExpect(model().attribute("usersFunds", usersFunds))
 		.andExpect(model().attribute("MODE", "MODE_USERSFUNDS"));
 	}
@@ -329,11 +337,12 @@ public class ApplicationWebControllerTest {
 	@Test
 	public void test_PostFund_ShouldInsertNew_WithOpenStateAndOwner() throws Exception {
 		
-		User activeUser = new User(1L, "myName", "password", 1);
+		//User activeUser = new User(1L, "myName", "password", 1);
+		UserDTO activeUser = new UserDTO(1L, "myName", 1);
 		Integer activeId = (activeUser.getId()).intValue();
 		
 		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
-		sessionattr.put("user", activeUser);
+		sessionattr.put("userdto", activeUser);
 		
 		
 		
@@ -363,10 +372,11 @@ public class ApplicationWebControllerTest {
 	@Test
 	public void test_FundNotClosable_whenUserIsNotAdmin() throws Exception {
 		
-		User activeUser = new User(1L, "myName", "password", 1);
+		//User activeUser = new User(1L, "myName", "password", 1);
+		UserDTO activeUser = new UserDTO(1L, "myName", 1);
 		
 		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
-		sessionattr.put("user", activeUser);
+		sessionattr.put("userdto", activeUser);
 		
 		Fund fund = new Fund(3L, "test fund", 0.0, 1, 1);
 		when(fundService.getFundById(3L)).thenReturn(fund);
@@ -384,10 +394,11 @@ public class ApplicationWebControllerTest {
 	@Test
 	public void test_FundClosable_whenUserIsAdmin() throws Exception {
 		
-		User activeAdmin = new User(1L, "myName", "password", 2);
+		//User activeAdmin = new User(1L, "myName", "password", 2);
+		UserDTO activeAdmin = new UserDTO(1L, "admin", 2);
 		
 		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
-		sessionattr.put("user", activeAdmin);
+		sessionattr.put("userdto", activeAdmin);
 		
 		Fund fund = new Fund(3L, "test fund", 0.0, 1, 1);
 		when(fundService.getFundById(3L)).thenReturn(fund);
@@ -428,10 +439,10 @@ public class ApplicationWebControllerTest {
 	
 	@Test
 	public void test_userClosesFund() throws Exception{
-		User activeUser = new User(1L, "myName", "password", 1);
-		
+		//User activeUser = new User(1L, "myName", "password", 1);
+		UserDTO activeUser = new UserDTO(1L, "myName", 1);
 		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
-		sessionattr.put("user", activeUser);
+		sessionattr.put("userdto", activeUser);
 		Fund fund = new Fund(1L, "test fund", 0.0, 1, 1);
 		fundService.insertNewFund(fund);
 		
@@ -449,10 +460,11 @@ public class ApplicationWebControllerTest {
 	
 	@Test
 	public void test_adminClosesFund() throws Exception{
-		User admin = new User(1L, "myName", "password", 2);
+		//User admin = new User(1L, "myName", "password", 2);
+		UserDTO admin = new UserDTO(1L, "admin", 2);
 		
 		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
-		sessionattr.put("user", admin);
+		sessionattr.put("userdto", admin);
 		Fund fund = new Fund(1L, "test fund", 0.0, 1, 1);
 		fundService.insertNewFund(fund);
 		
@@ -470,7 +482,13 @@ public class ApplicationWebControllerTest {
 	
 	@Test
 	public void test_updateSubjectFund() throws Exception{
-		mvc.perform(post("/edit-subject")
+		
+		UserDTO activeUser = new UserDTO(1L, "myName", 1);
+		
+		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
+		sessionattr.put("userdto", activeUser);
+		
+		mvc.perform(post("/edit-subject").sessionAttrs(sessionattr)
 				.param("idFund", "1")
 				.param("subject", "test newSub")
 				.param("money", "0.0")
@@ -483,10 +501,11 @@ public class ApplicationWebControllerTest {
 	
 	@Test
 	public void test_donateMoneyToFund() throws Exception{
-		User activeUser = new User(1L, "myName", "password", 1);
+		//User activeUser = new User(1L, "myName", "password", 1);
+		UserDTO activeUser = new UserDTO(1L, "myName", 1);
 		
 		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
-		sessionattr.put("user", activeUser);
+		sessionattr.put("userdto", activeUser);
 		
 		Fund fund = new Fund(1L, "test fund", 0.0, 1, 1);
 		fundService.insertNewFund(fund);
