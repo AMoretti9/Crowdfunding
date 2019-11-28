@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import com.crowdfunding.dto.UserDTO;
 import com.crowdfunding.model.Fund;
@@ -99,7 +100,8 @@ public class ApplicationWebController {
 	}
 	
 	@GetMapping("/action/logout")
-	public String actionLogout(Model model) {
+	public String actionLogout(Model model, SessionStatus status) {
+		status.setComplete();
 		return INDEX;
 	}
 	
