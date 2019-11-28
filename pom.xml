@@ -41,7 +41,7 @@
 			**/dto/*
 		</sonar.coverage.exclusions>
 
-		<sonar.issue.ignore.multicriteria>e1,e2,e3,e4</sonar.issue.ignore.multicriteria>
+		<sonar.issue.ignore.multicriteria>e1,e2,e3,e4,e5</sonar.issue.ignore.multicriteria>
 		<sonar.issue.ignore.multicriteria.e1.ruleKey>
 			squid:S2925 <!-- Thread.sleep() necessary for this HW -->
 		</sonar.issue.ignore.multicriteria.e1.ruleKey>
@@ -61,11 +61,17 @@
 			**/*IT.java
 		</sonar.issue.ignore.multicriteria.e3.resourceKey>
 		<sonar.issue.ignore.multicriteria.e4.ruleKey>
-			squid:S4823 <!-- command line arguments security service, not used -->
+			squid:S4823 <!-- command line arguments security sensitive, not used -->
 		</sonar.issue.ignore.multicriteria.e4.ruleKey>
 		<sonar.issue.ignore.multicriteria.e4.resourceKey>
 			**/CrowdfundingApplication.java
 		</sonar.issue.ignore.multicriteria.e4.resourceKey>
+		<sonar.issue.ignore.multicriteria.e5.ruleKey>
+			squid:S4684 <!-- Ignore DTO request for entity without sensitive data -->
+		</sonar.issue.ignore.multicriteria.e5.ruleKey>
+		<sonar.issue.ignore.multicriteria.e5.resourceKey>
+			**/*WebController.java
+		</sonar.issue.ignore.multicriteria.e5.resourceKey>
 	</properties>
 
 	<dependencies>
