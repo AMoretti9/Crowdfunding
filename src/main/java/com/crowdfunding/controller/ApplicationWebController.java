@@ -88,7 +88,6 @@ public class ApplicationWebController {
 			@ModelAttribute("password") String password, @ModelAttribute("userdto") UserDTO userdto) {
 		User userFound = userService.getUserByUsernameAndPassword(username, password);
 		if (userFound != null) {
-			//model.addAttribute("user", userFound);
 			userdto.setId(userFound.getId());
 			userdto.setUsername(userFound.getUsername());
 			userdto.setRole(userFound.getRole());

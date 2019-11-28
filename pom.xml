@@ -41,15 +41,15 @@
 			**/dto/*
 		</sonar.coverage.exclusions>
 
-		<sonar.issue.ignore.multicriteria>e1,e2,e3,e4,e5</sonar.issue.ignore.multicriteria>
+		<sonar.issue.ignore.multicriteria>e1,e2,e3,e4</sonar.issue.ignore.multicriteria>
 		<sonar.issue.ignore.multicriteria.e1.ruleKey>
-			squid:S2925
+			squid:S2925 <!-- Thread.sleep() necessary for this HW -->
 		</sonar.issue.ignore.multicriteria.e1.ruleKey>
 		<sonar.issue.ignore.multicriteria.e1.resourceKey>
 			**/*E2E.java
 		</sonar.issue.ignore.multicriteria.e1.resourceKey>
 		<sonar.issue.ignore.multicriteria.e2.ruleKey>
-			squid:S2699
+			squid:S2699	<!-- assertion unnecessary for launcher class -->
 		</sonar.issue.ignore.multicriteria.e2.ruleKey>
 		<sonar.issue.ignore.multicriteria.e2.resourceKey>
 			**/*ApplicationTests.java
@@ -61,17 +61,11 @@
 			**/*IT.java
 		</sonar.issue.ignore.multicriteria.e3.resourceKey>
 		<sonar.issue.ignore.multicriteria.e4.ruleKey>
-			squid:S4823
+			squid:S4823 <!-- command line arguments security service, not used -->
 		</sonar.issue.ignore.multicriteria.e4.ruleKey>
 		<sonar.issue.ignore.multicriteria.e4.resourceKey>
 			**/CrowdfundingApplication.java
 		</sonar.issue.ignore.multicriteria.e4.resourceKey>
-		<sonar.issue.ignore.multicriteria.e5.ruleKey>
-      squid:S3776
-    </sonar.issue.ignore.multicriteria.e5.ruleKey>
-    <sonar.issue.ignore.multicriteria.e5.resourceKey>
-      **/model/*.java
-    </sonar.issue.ignore.multicriteria.e5.resourceKey>
 	</properties>
 
 	<dependencies>

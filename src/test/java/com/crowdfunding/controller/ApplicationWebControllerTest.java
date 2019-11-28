@@ -181,7 +181,6 @@ public class ApplicationWebControllerTest {
 	
 	@Test
 	public void testReturnHomePageAction() throws Exception {
-		//User activeUser = new User(1L, "myName", "password", 1);
 		UserDTO activeUser = new UserDTO(1L, "myName", 1);
 		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
 		
@@ -198,7 +197,6 @@ public class ApplicationWebControllerTest {
 	@Test
 	public void testMyFunds_shouldShowMyFunds_whenMyFundsArePresent() throws Exception{
 		
-		//User activeUser = new User(1L, "myName", "password", 1);
 		UserDTO activeUser = new UserDTO(1L, "myName", 1);
 		int activeId = (activeUser.getId()).intValue();
 		
@@ -220,7 +218,6 @@ public class ApplicationWebControllerTest {
 	
 	@Test
 	public void testUsersFunds_shouldShowUsersFunds_whenUsersFundsArePresent() throws Exception {
-		//User activeUser = new User(1L, "myName", "password", 1);
 		UserDTO activeUser = new UserDTO(1L, "myName", 1);
 		int activeId = (activeUser.getId()).intValue();
 		
@@ -337,7 +334,6 @@ public class ApplicationWebControllerTest {
 	@Test
 	public void test_PostFund_ShouldInsertNew_WithOpenStateAndOwner() throws Exception {
 		
-		//User activeUser = new User(1L, "myName", "password", 1);
 		UserDTO activeUser = new UserDTO(1L, "myName", 1);
 		Integer activeId = (activeUser.getId()).intValue();
 		
@@ -372,7 +368,6 @@ public class ApplicationWebControllerTest {
 	@Test
 	public void test_FundNotClosable_whenUserIsNotAdmin() throws Exception {
 		
-		//User activeUser = new User(1L, "myName", "password", 1);
 		UserDTO activeUser = new UserDTO(1L, "myName", 1);
 		
 		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
@@ -394,7 +389,6 @@ public class ApplicationWebControllerTest {
 	@Test
 	public void test_FundClosable_whenUserIsAdmin() throws Exception {
 		
-		//User activeAdmin = new User(1L, "myName", "password", 2);
 		UserDTO activeAdmin = new UserDTO(1L, "admin", 2);
 		
 		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
@@ -439,7 +433,6 @@ public class ApplicationWebControllerTest {
 	
 	@Test
 	public void test_userClosesFund() throws Exception{
-		//User activeUser = new User(1L, "myName", "password", 1);
 		UserDTO activeUser = new UserDTO(1L, "myName", 1);
 		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
 		sessionattr.put("userdto", activeUser);
@@ -460,7 +453,6 @@ public class ApplicationWebControllerTest {
 	
 	@Test
 	public void test_adminClosesFund() throws Exception{
-		//User admin = new User(1L, "myName", "password", 2);
 		UserDTO admin = new UserDTO(1L, "admin", 2);
 		
 		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
@@ -501,7 +493,6 @@ public class ApplicationWebControllerTest {
 	
 	@Test
 	public void test_donateMoneyToFund() throws Exception{
-		//User activeUser = new User(1L, "myName", "password", 1);
 		UserDTO activeUser = new UserDTO(1L, "myName", 1);
 		
 		HashMap<String, Object> sessionattr = new HashMap<String, Object>();
