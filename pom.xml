@@ -263,8 +263,8 @@
 						<param>com.crowdfunding.*</param>
 					</targetTests>
 					<excludedTestClasses>
-						<param>com.crowdfunding.CrowdfundingApplication</param>
-						<param>com.crowdfunding.*Controller*</param>
+						<param>com.crowdfunding.CrowdfundingApplicationTests</param>
+						<param>com.crowdfunding.controller.ApplicationWebControllerTest</param>
 						<param>com.crowdfunding.*IT*</param>
 						<param>com.crowdfunding.*E2E*</param>
 					</excludedTestClasses>
