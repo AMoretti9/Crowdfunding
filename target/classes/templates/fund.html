@@ -43,7 +43,7 @@
 		<form class="form-center" name="donation_form" action="#" th:action="@{/action/donate}" th:object="${fundAttribute}" method="post">
 			Insert the amount of money and make a donation!
 			<div>
-				Money to Donate:  <input type="number" step="0.5" min="0" id="donation" name="donation" required>
+				Money to Donate: (greater than 0; multiple of 0,5)  <input type="number" step="0.5" min="0" id="donation" name="donation" required>
 				<input type="hidden" th:field="*{idFund}"> 
 				<input type="hidden" th:field="*{subject}">
 				<input type="hidden" th:field="*{money}">

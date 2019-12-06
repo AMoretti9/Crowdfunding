@@ -252,6 +252,7 @@
 					</targetClasses>
 					<excludedClasses>
 						<param>com.crowdfunding.model.*</param>
+						<param>com.crowdfunding.controller.*</param>
 						<param>com.crowdfunding.CrowdfundingApplication</param>
 						<param>com.crowdfunding.dto.*</param>
 					</excludedClasses>
@@ -263,6 +264,7 @@
 					</targetTests>
 					<excludedTestClasses>
 						<param>com.crowdfunding.CrowdfundingApplication</param>
+						<param>com.crowdfunding.*Controller*</param>
 						<param>com.crowdfunding.*IT*</param>
 						<param>com.crowdfunding.*E2E*</param>
 					</excludedTestClasses>

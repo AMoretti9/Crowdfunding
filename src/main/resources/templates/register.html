@@ -29,14 +29,14 @@
 							th:field="*{username}" maxlength="20" required></td>
 					</tr>
 					<tr>
-						<td class="table-register">Password:</td>
+						<td class="table-register">Password: (min length 6)</td>
 						<td class="table-register"><input id="password"
 							type="password" pattern="^\S{6,}$"
 							onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have at least 6 characters' : ''); if(this.checkValidity()) form.password_two.pattern = this.value;"
 							th:field="*{password}" required></td>
 					</tr>
 					<tr>
-						<td class="table-register">Confirm Password:</td>
+						<td class="table-register">Confirm Password: (repeat password)</td>
 						<td class="table-register"><input id="password_two"
 							type="password" pattern="^\S{6,}$"
 							onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Match the request format' : '');"
