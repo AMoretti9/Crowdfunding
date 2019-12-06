@@ -253,7 +253,7 @@
 					<excludedClasses>
 						<param>com.crowdfunding.model.*</param>
 						<param>com.crowdfunding.controller.*</param>
-						<param>com.crowdfunding.CrowdfundingApplication</param>
+						<param>com.crowdfunding.CrowdfundingApplication.java</param>
 						<param>com.crowdfunding.dto.*</param>
 					</excludedClasses>
 					<excludedMethods>
@@ -263,8 +263,8 @@
 						<param>com.crowdfunding.*</param>
 					</targetTests>
 					<excludedTestClasses>
-						<param>com.crowdfunding.CrowdfundingApplicationTests</param>
-						<param>com.crowdfunding.controller.ApplicationWebControllerTest</param>
+						<param>com.crowdfunding.CrowdfundingApplicationTests.java</param>
+						<param>com.crowdfunding.controller.ApplicationWebControllerTest.java</param>
 						<param>com.crowdfunding.*IT*</param>
 						<param>com.crowdfunding.*E2E*</param>
 					</excludedTestClasses>
