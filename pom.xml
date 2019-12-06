@@ -269,7 +269,7 @@
 						<param>com.crowdfunding.*E2E*</param>
 					</excludedTestClasses>
 					<mutators>
-						<mutator>ALL</mutator>
+						<mutator>DEFAULTS</mutator>
 					</mutators>
 					<mutationThreshold>100</mutationThreshold>
 				</configuration>
