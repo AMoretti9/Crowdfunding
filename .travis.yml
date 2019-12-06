@@ -24,4 +24,4 @@ cache:
   
 script:
   - git fetch --unshallow
-  - mvn clean verify $MAVEN_ARGS -Dsonar.login=${SONAR_TOKEN}
+  - mvn -B clean verify $MAVEN_ARGS -Dsonar.login=${SONAR_TOKEN}
