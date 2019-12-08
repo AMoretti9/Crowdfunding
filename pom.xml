@@ -139,19 +139,16 @@
 			<version>3.5.0</version>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-		<groupId>org.modelmapper</groupId>
-		<artifactId>modelmapper</artifactId>
-		<version>2.3.2</version>
-		</dependency>
 	</dependencies>
 
 	<build>
 		<plugins>
+		
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>build-helper-maven-plugin</artifactId>
@@ -399,7 +396,7 @@
 								<configuration>
 									<excludes>
 										<exclude>**/*IT.java</exclude>
-										<exclude>**/CrowdfundingApplication.java</exclude>
+										<exclude>**/CrowdfundingApplicationTests.java</exclude>
 									</excludes>
 									<includes>
 										<include>**/*E2E.java</include>
