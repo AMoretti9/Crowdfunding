@@ -15,27 +15,25 @@
 	<name>crowdfunding</name>
 	<description>Crowdfunding Application</description>
 
-	<properties>
-		<java.version>1.8</java.version>
-		<skip.unit-tests>false</skip.unit-tests>
+<properties>
+    <java.version>1.8</java.version>
 
-		<!-- For SonarQube -->
-		<sonar.coverage.jacoco.xmlReportPaths>
+    <skip.unit-tests>false</skip.unit-tests>
+    <skip.integration-tests>true</skip.integration-tests>
+	
+	<sonar.coverage.jacoco.xmlReportPaths>
 			${project.reporting.outputDirectory}/jacoco/jacoco.xml
-		</sonar.coverage.jacoco.xmlReportPaths>
-		<!-- Also collects integration tests -->
-		<sonar.junit.reportPaths>
-			${project.build.directory}/surefire-reports,
-			${project.build.directory}/failsafe-reports
-		</sonar.junit.reportPaths>
-		<!-- Also scans HTML files -->
-		<sonar.sources>
+	</sonar.coverage.jacoco.xmlReportPaths>
+	<sonar.junit.reportPaths>
+		${project.build.directory}/surefire-reports,
+		${project.build.directory}/failsafe-reports
+	</sonar.junit.reportPaths>
+	<sonar.sources>
 			pom.xml,
 			${project.build.sourceDirectory},
 			${basedir}/src/main/resources
 		</sonar.sources>
-		<!-- Exclude non covered files -->
-		<sonar.coverage.exclusions>
+	<sonar.coverage.exclusions>
 			**/*Application.*,
 			**/model/*,
 			**/dto/*
@@ -73,9 +71,9 @@
 			**/*WebController.java
 		</sonar.issue.ignore.multicriteria.e5.resourceKey>
 	</properties>
-
+	
 	<dependencies>
-		<dependency>
+	<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
@@ -140,277 +138,293 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	
+	  <!-- PLUGINS -->
+  <build>
+    <plugins>
 
-	<build>
-		<plugins>
-		
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>build-helper-maven-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>add-test-source</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>add-test-source</goal>
-						</goals>
-						<configuration>
-							<sources>
-								<source>src/it/java</source>
-								<source>src/e2e/java</source>
-							</sources>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>add-test-source</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>add-test-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>src/it/java</source>
+                <source>src/e2e/java</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      
+            <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <skipTests>${skip.unit-tests}</skipTests>
+          <excludes>
+            <exclude>**/CrowdfundingApplicationTests.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+    
+       <!-- PLUGIN MANAGEMENT -->
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <executions>
+            <execution>
+              <configuration>
+                <skipTests>${skip.integration-tests}</skipTests>
+                <includes>
+                  <include>**/*IT.java</include>
+                  <include>**/*CrowdfundingApplicationTests.java</include>
+                </includes>
+              </configuration>
+              <goals>
+                <goal>integration-test</goal>
+                <goal>verify</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+    
+    <plugin>
+          <groupId>org.jacoco</groupId>
+          <artifactId>jacoco-maven-plugin</artifactId>
+          <version>0.8.3</version>
+          <configuration>
+            <excludes>
+              <exclude>**/*Application.*</exclude>
+              <exclude>**/model/*</exclude>
+              <exclude>**/dto/*</exclude>
+            </excludes>
+          </configuration>
+          <executions>
+            <execution>
+              <goals>
+                <goal>prepare-agent</goal>
+                <goal>report</goal>
+              </goals>
+            </execution>
+            <execution>
+              <id>jacoco-check</id>
+              <goals>
+                <goal>check</goal>
+              </goals>
+              <configuration>
+                <rules>
+                  <rule>
+                    <element>CLASS</element>
+                    <limits>
+                      <limit>
+                        <counter>LINE</counter>
+                        <value>COVEREDRATIO</value>
+                        <minimum>1.0</minimum>
+                      </limit>
+                    </limits>
+                  </rule>
+                </rules>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
 
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<configuration>
-					<skipTests>${skip.unit-tests}</skipTests>
-					<includes>
-						<include>**/*Test.java</include>
-					</includes>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-failsafe-plugin</artifactId>
-				<executions>
-					<execution>
-						<configuration>
-							<includes>
-								<include>**/*ApplicationTests.java</include>
-								<include>**/*IT.java</include>
-							</includes>
-						</configuration>
-						<goals>
-							<goal>integration-test</goal>
-							<goal>verify</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.8.3</version>
-				<configuration>
-					<excludes>
-						<exclude>**/*Application.*</exclude>
-						<exclude>**/dto/*</exclude>
-						<exclude>**/model/*</exclude>
-					</excludes>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>prepare-agent</goal>
-							<goal>report</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>jacoco-check</id>
-						<goals>
-							<goal>check</goal>
-						</goals>
-						<configuration>
-							<rules>
-								<rule>
-									<element>CLASS</element>
-									<limits>
-										<limit>
-											<counter>LINE</counter>
-											<value>COVEREDRATIO</value>
-											<minimum>1.0</minimum>
-										</limit>
-									</limits>
-								</rule>
-							</rules>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
-			<plugin>
-				<groupId>org.pitest</groupId>
-				<artifactId>pitest-maven</artifactId>
-				<version>1.4.8</version>
-				<configuration>
-					<targetClasses>
-						<param>com.crowdfunding.*</param>
-					</targetClasses>
-					<excludedClasses>
+	<plugin>
+          <groupId>org.pitest</groupId>
+          <artifactId>pitest-maven</artifactId>
+          <version>1.4.8</version>
+          <configuration>
+            <targetClasses>
+              <param>com.crowdfunding.*</param>
+            </targetClasses>
+            <excludedClasses>
 						<param>com.crowdfunding.model.*</param>
 						<param>com.crowdfunding.controller.*</param>
 						<param>com.crowdfunding.CrowdfundingApplication.java</param>
 						<param>com.crowdfunding.dto.*</param>
 					</excludedClasses>
-					<excludedMethods>
-
-					</excludedMethods>
-					<targetTests>
-						<param>com.crowdfunding.*</param>
-					</targetTests>
-					<excludedTestClasses>
+            <targetTests>
+              <param>com.crowdfunding.*</param>
+            </targetTests>
+            <excludedTestClasses>
 						<param>com.crowdfunding.CrowdfundingApplicationTests.java</param>
 						<param>com.crowdfunding.controller.ApplicationWebControllerTest.java</param>
 						<param>com.crowdfunding.*IT*</param>
 						<param>com.crowdfunding.*E2E*</param>
-					</excludedTestClasses>
-					<mutators>
-						<mutator>DEFAULTS</mutator>
-					</mutators>
-					<mutationThreshold>100</mutationThreshold>
-				</configuration>
-			</plugin>
+            </excludedTestClasses>
+            <mutators>
+              <mutator>DEFAULTS</mutator>
+            </mutators>
+            <mutationThreshold>100</mutationThreshold>
+          </configuration>
+        </plugin>	
+	
+	        <plugin>
+          <!-- coveralls:report is called explicitly from the .travis.yml 
+            script -->
+          <groupId>org.eluder.coveralls</groupId>
+          <artifactId>coveralls-maven-plugin</artifactId>
+          <version>4.3.0</version>
+        </plugin>
 
-			<plugin>
-				<!-- coveralls:report is called explicitly from the .travis.yml script -->
-				<groupId>org.eluder.coveralls</groupId>
-				<artifactId>coveralls-maven-plugin</artifactId>
-				<version>4.3.0</version>
-			</plugin>
+        <plugin>
+          <groupId>org.sonarsource.scanner.maven</groupId>
+          <artifactId>sonar-maven-plugin</artifactId>
+          <version>3.6.0.1398</version>
+        </plugin>
+        
+                <plugin>
+          <!-- This plugin must be defined after docker plugin, to allow 
+            the goals 'docker-maven-plugin:<version>:start' and 'spring-boot-maven-plugin:<version>:start' 
+            inside profile e2e to be executed in this order -->
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-maven-plugin</artifactId>
+          <configuration>
+            <mainClass>com.maurosalani.project.attsd.AttsdProjectApplication</mainClass>
+          </configuration>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 
-			<plugin>
-				<groupId>org.sonarsource.scanner.maven</groupId>
-				<artifactId>sonar-maven-plugin</artifactId>
-				<version>3.6.0.1398</version>
-			</plugin>
+ <profiles>
+    <profile>
+      <id>jacoco</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <!-- configured in pluginManagement -->
+            <groupId>org.jacoco</groupId>
+            <artifactId>jacoco-maven-plugin</artifactId>
+          </plugin>
 
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-surefire-plugin</artifactId>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
 
-		</plugins>
-	</build>
+    <profile>
+      <id>pit</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <!-- configured in pluginManagement -->
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-maven</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>mutationCoverage</goal>
+                </goals>
+                <phase>verify</phase>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+       <profile>
+      <id>e2e</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+        <skip.unit-tests>true</skip.unit-tests>
+        <skip.integration-tests>false</skip.integration-tests>
+      </properties>
+      <build>
+        <plugins>
 
-	<profiles>
-		<profile>
-			<id>jacoco</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.jacoco</groupId>
-						<artifactId>jacoco-maven-plugin</artifactId>
-					</plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>build-helper-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>reserve-tomcat-port</id>
+                <goals>
+                  <goal>reserve-network-port</goal>
+                </goals>
+                <phase>process-resources</phase>
+                <configuration>
+                  <portNames>
+                    <portName>tomcat.http.port</portName>
+                  </portNames>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
 
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-surefire-plugin</artifactId>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
+          <plugin>
+            <!-- configured in pluginManagement -->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>pre-integration-test</id>
+                <goals>
+                  <goal>start</goal>
+                </goals>
+                <configuration>
+                  <wait>100000</wait>
+                  <arguments>
+                    <argument>--server.port=${tomcat.http.port}</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+              <execution>
+                <id>post-integration-test</id>
+                <goals>
+                  <goal>stop</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
 
-		<profile>
-			<id>pit</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.pitest</groupId>
-						<artifactId>pitest-maven</artifactId>
-						<executions>
-							<execution>
-								<goals>
-									<goal>mutationCoverage</goal>
-								</goals>
-								<phase>verify</phase>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
+          <plugin>
+            <!-- configured in pluginManagement -->
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-failsafe-plugin</artifactId>
+            <executions>
+              <execution>
+                <configuration>
+                  <excludes>
+                    <exclude>**/*IT.java</exclude>
+                    <exclude>**/CrowdfundingApplicationTests.java</exclude>
+                  </excludes>
+                  <includes>
+                    <include>**/*E2E.java</include>
+                  </includes>
+                  <systemPropertyVariables>
+                    <server.port>${tomcat.http.port}</server.port>
+                  </systemPropertyVariables>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
-		<profile>
-			<id>e2e</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<properties>
-				<skip.unit-tests>true</skip.unit-tests>
-				<skip.integration-tests>false</skip.integration-tests>
-			</properties>
-			<build>
-				<plugins>
-
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>build-helper-maven-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>reserve-tomcat-port</id>
-								<goals>
-									<goal>reserve-network-port</goal>
-								</goals>
-								<phase>process-resources</phase>
-								<configuration>
-									<portNames>
-										<portName>tomcat.http.port</portName>
-									</portNames>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-
-					<plugin>
-						<groupId>org.springframework.boot</groupId>
-						<artifactId>spring-boot-maven-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>pre-integration-test</id>
-								<goals>
-									<goal>start</goal>
-								</goals>
-								<configuration>
-									<arguments>
-										<argument>--server.port=${tomcat.http.port}</argument>
-									</arguments>
-								</configuration>
-							</execution>
-							<execution>
-								<id>post-integration-test</id>
-								<goals>
-									<goal>stop</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-failsafe-plugin</artifactId>
-						<executions>
-							<execution>
-								<configuration>
-									<excludes>
-										<exclude>**/*IT.java</exclude>
-										<exclude>**/CrowdfundingApplicationTests.java</exclude>
-									</excludes>
-									<includes>
-										<include>**/*E2E.java</include>
-									</includes>
-									<systemPropertyVariables>
-										<server.port>${tomcat.http.port}</server.port>
-									</systemPropertyVariables>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-
-	</profiles>
+	
 </project>
