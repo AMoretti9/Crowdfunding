@@ -10,7 +10,7 @@ matrix:
   include:
   - jdk: openjdk8
     if: type IN (push) AND type NOT IN (pull_request)
-    env: MAVEN_ARGS="-Pjacoco coveralls:report sonar:sonar -Ppit"
+    env: MAVEN_ARGS="-Pjacoco coveralls:report sonar:sonar -Ppit -Pe2e"
     
 services:
   - xvfb
