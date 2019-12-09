@@ -346,7 +346,7 @@
 			</activation>
 			<properties>
 				<skip.unit-tests>true</skip.unit-tests>
-				<skip.integration-tests>false</skip.integration-tests>
+				<skip.integration-tests>true</skip.integration-tests>
 			</properties>
 			<build>
 				<plugins>
