@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.crowdfunding.FundWebControllerIT
--------------------------------------------------------------------------------
-Tests run: 5, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 87.482 s - in com.crowdfunding.FundWebControllerIT
