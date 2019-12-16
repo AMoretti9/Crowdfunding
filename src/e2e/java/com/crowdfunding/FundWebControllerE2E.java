@@ -69,24 +69,24 @@ public class FundWebControllerE2E {
 		
 		//go to register page
 		driver.findElement(By.linkText("Register")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//insert User info and register
 		driver.findElement(By.id("username")).sendKeys("user1");
 		driver.findElement(By.id("password")).sendKeys("pass01");
 		driver.findElement(By.id("password_two")).sendKeys("pass01");
 		driver.findElement(By.name("btn_save")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//now try to login in "Login Page"
 		driver.findElement(By.name("username")).sendKeys("user1");
 		driver.findElement(By.name("password")).sendKeys("pass01");
 		driver.findElement(By.name("btn_login")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//go to "My Funds" page
 		driver.findElement(By.linkText("MY FUNDS")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//insert new Fund
 		driver.findElement(By.id("subject")).sendKeys("test fund number One");
@@ -103,24 +103,24 @@ public class FundWebControllerE2E {
 		
 		//go to register page
 		driver.findElement(By.linkText("Register")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//insert User info and register
 		driver.findElement(By.id("username")).sendKeys("user3");
 		driver.findElement(By.id("password")).sendKeys("pass03");
 		driver.findElement(By.id("password_two")).sendKeys("pass03");
 		driver.findElement(By.name("btn_save")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//now try to login in "Login Page"
 		driver.findElement(By.name("username")).sendKeys("user3");
 		driver.findElement(By.name("password")).sendKeys("pass03");
 		driver.findElement(By.name("btn_login")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//go to "My Funds" page
 		driver.findElement(By.linkText("MY FUNDS")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//insert new Fund
 		driver.findElement(By.id("subject")).sendKeys("test fund number Three");
@@ -128,7 +128,7 @@ public class FundWebControllerE2E {
 		
 		//enter into fund created
 		driver.findElement(By.linkText("Enter")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//update the subject of fund
 		driver.findElement(By.id("subject")).clear();
@@ -137,7 +137,7 @@ public class FundWebControllerE2E {
 		
 		//go to My Fund and verify that the subject is updated
 		driver.findElement(By.linkText("MY FUNDS")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		assertThat(driver.findElement(By.id("myFund_table")).getText()).
 		contains("new text for number Three", "OPEN");
 		
@@ -149,24 +149,24 @@ public class FundWebControllerE2E {
 		
 		//go to register page
 		driver.findElement(By.linkText("Register")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//insert User info and register
 		driver.findElement(By.id("username")).sendKeys("user2");
 		driver.findElement(By.id("password")).sendKeys("pass02");
 		driver.findElement(By.id("password_two")).sendKeys("pass02");
 		driver.findElement(By.name("btn_save")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//now try to login in "Login Page"
 		driver.findElement(By.name("username")).sendKeys("user2");
 		driver.findElement(By.name("password")).sendKeys("pass02");
 		driver.findElement(By.name("btn_login")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//go to "My Funds" page
 		driver.findElement(By.linkText("MY FUNDS")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//insert new Fund
 		driver.findElement(By.id("subject")).sendKeys("test fund number Two");
@@ -174,14 +174,14 @@ public class FundWebControllerE2E {
 		
 		//enter into fund created
 		driver.findElement(By.linkText("Enter")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//close the fund
 		driver.findElement(By.name("btn_userCloses")).click();
 		
 		//go to My Fund and verify that fund is CLOSED
 		driver.findElement(By.linkText("MY FUNDS")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		assertThat(driver.findElement(By.id("myFund_table")).getText()).
 		contains("test fund number Two", "CLOSED");
 	}
@@ -193,24 +193,24 @@ public class FundWebControllerE2E {
 		// USER 1 OPERATION
 		//go to register page
 		driver.findElement(By.linkText("Register")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//insert User info and register
 		driver.findElement(By.id("username")).sendKeys("user10");
 		driver.findElement(By.id("password")).sendKeys("pass10");
 		driver.findElement(By.id("password_two")).sendKeys("pass10");
 		driver.findElement(By.name("btn_save")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//now try to login in "Login Page"
 		driver.findElement(By.name("username")).sendKeys("user10");
 		driver.findElement(By.name("password")).sendKeys("pass10");
 		driver.findElement(By.name("btn_login")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//go to "My Funds" page
 		driver.findElement(By.linkText("MY FUNDS")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//insert new Fund, then logout
 		driver.findElement(By.id("subject")).sendKeys("fund to test donation");
@@ -227,30 +227,30 @@ public class FundWebControllerE2E {
 		//USER 2 OPERATION
 		//go to register page
 		driver.findElement(By.linkText("Register")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 				
 		//insert User info and register
 		driver.findElement(By.id("username")).sendKeys("user11");
 		driver.findElement(By.id("password")).sendKeys("pass11");
 		driver.findElement(By.id("password_two")).sendKeys("pass11");
 		driver.findElement(By.name("btn_save")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//now try to login in "Login Page"
 		driver.findElement(By.name("username")).sendKeys("user11");
 		driver.findElement(By.name("password")).sendKeys("pass11");
 		driver.findElement(By.name("btn_login")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//go to "Users' Funds" page
 		driver.findElement(By.linkText("USERS' FUNDS")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//verify that there is a fund and Enter into that
 		assertThat(driver.findElement(By.id("usersFund_table")).getText()).
 		contains("fund to test donation", "0.0");
 		driver.findElement(By.cssSelector("a[href*='/userfund/" + idNewFund + "']")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//insert the amount and make donation
 		driver.findElement(By.name("donation")).sendKeys("25.0");
@@ -258,7 +258,7 @@ public class FundWebControllerE2E {
 		
 		//return in Users' Funds and verify the donation
 		driver.findElement(By.linkText("USERS' FUNDS")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		assertThat(driver.findElement(By.id("usersFund_table")).getText()).
 		contains("fund to test donation", "25.0");
 		
@@ -271,24 +271,24 @@ public class FundWebControllerE2E {
 		// USER 1 OPERATION
 		//go to register page
 		driver.findElement(By.linkText("Register")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//insert User info and register
 		driver.findElement(By.id("username")).sendKeys("user12");
 		driver.findElement(By.id("password")).sendKeys("pass12");
 		driver.findElement(By.id("password_two")).sendKeys("pass12");
 		driver.findElement(By.name("btn_save")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 			
 		//now try to login in "Login Page"
 		driver.findElement(By.name("username")).sendKeys("user12");
 		driver.findElement(By.name("password")).sendKeys("pass12");
 		driver.findElement(By.name("btn_login")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//go to "My Funds" page
 		driver.findElement(By.linkText("MY FUNDS")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//insert new Fund, then logout
 		driver.findElement(By.id("subject")).sendKeys("fund closed by admin");
@@ -299,52 +299,52 @@ public class FundWebControllerE2E {
 		String idNewFund = cell.getText();
 		
 		driver.findElement(By.linkText("LOGOUT")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//ADMIN OPERATION
 		//go to register page
 		driver.findElement(By.linkText("Register")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 						
 		//insert ADMIN info and register
 		driver.findElement(By.id("username")).sendKeys("admin");
 		driver.findElement(By.id("password")).sendKeys("adminpsw");
 		driver.findElement(By.id("password_two")).sendKeys("adminpsw");
 		driver.findElement(By.name("btn_save")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 				
 		//now try to login in "Login Page"
 		driver.findElement(By.name("username")).sendKeys("admin");
 		driver.findElement(By.name("password")).sendKeys("adminpsw");
 		driver.findElement(By.name("btn_login")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 				
 		//go to "Users' Funds" page
 		driver.findElement(By.linkText("USERS' FUNDS")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 				
 		//verify that there is a fund and Enter into that
 		assertThat(driver.findElement(By.id("usersFund_table")).getText()).
 			contains("fund closed by admin", "0.0");
 		driver.findElement(By.cssSelector("a[href*='/userfund/" + idNewFund + "']")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 				
 		//close the fund
 		driver.findElement(By.name("btn_userCloses")).click();
 		
 		driver.findElement(By.linkText("LOGOUT")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//USER 1 OPERATION
 		//user login
 		driver.findElement(By.name("username")).sendKeys("user12");
 		driver.findElement(By.name("password")).sendKeys("pass12");
 		driver.findElement(By.name("btn_login")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//go to "My Funds" page
 		driver.findElement(By.linkText("MY FUNDS")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//verify that the Fund was CLOSED by Admin
 		assertThat(driver.findElement(By.id("myFund_table")).getText()).
