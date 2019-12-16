@@ -3,14 +3,23 @@ language: java
 addons:
   sonarcloud:
     organization: amoretti9
-    #token:
-    #  secure: $SONAR_TOKEN
+    token:
+      secure: $SONAR_TOKEN
       
 matrix:
   include:
   - jdk: openjdk8
     if: type IN (push) AND type NOT IN (pull_request)
-    env: MAVEN_ARGS="-Pjacoco,it coveralls:report sonar:sonar -Ppit -Pe2e"
+    env: MAVEN_ARGS="-Pjacoco coveralls:report sonar:sonar"
+  - jdk: openjdk8
+    if: type IN (push) AND type NOT IN (pull_request)
+    env: MAVEN_ARGS="-Pjacoco,it coveralls:report sonar:sonar"
+  - jdk: openjdk8
+    if: type IN (push) AND type NOT IN (pull_request)
+    env: MAVEN_ARGS="-Pe2e"
+  - jdk: openjdk8
+    if: type IN (push) AND type NOT IN (pull_request)
+    env: MAVEN_ARGS="-Ppit"
     
 services:
   - xvfb
@@ -24,4 +33,5 @@ cache:
   
 script:
   - git fetch --unshallow
-  - mvn clean verify $MAVEN_ARGS -Dsonar.login=${SONAR_TOKEN}
+  - ./mvnw clean verify $MAVEN_ARGS
+# - mvn clean verify $MAVEN_ARGS -Dsonar.login=${SONAR_TOKEN}
