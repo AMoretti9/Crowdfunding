@@ -67,7 +67,7 @@ public class UserWebControllerE2E {
 		
 		//go to register page
 		driver.findElement(By.linkText("Register")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//insert User info and register
 		driver.findElement(By.id("username")).sendKeys("user");
@@ -77,11 +77,11 @@ public class UserWebControllerE2E {
 		
 		//verify to return to "Login Page"
 		assertThat(driver.getTitle()).isEqualTo("Login .::. Crowdfunding");
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//now try to insert another user with the same username "user"
 		driver.findElement(By.linkText("Register")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		driver.findElement(By.id("username")).sendKeys("user");
 		driver.findElement(By.id("password")).sendKeys("userPass");
 		driver.findElement(By.id("password_two")).sendKeys("userPass");
@@ -98,7 +98,7 @@ public class UserWebControllerE2E {
 		//go to register page
 		driver.findElement(By.linkText("Register")).click();
 		
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//insert User info and register
 		driver.findElement(By.id("username")).sendKeys("admin");
@@ -117,7 +117,7 @@ public class UserWebControllerE2E {
 		//go to register page
 		driver.findElement(By.linkText("Register")).click();
 		
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//insert User info with NoMatch password
 		driver.findElement(By.id("username")).sendKeys("newUser");
@@ -135,20 +135,20 @@ public class UserWebControllerE2E {
 		
 		//go to register page
 		driver.findElement(By.linkText("Register")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//insert User info and register
 		driver.findElement(By.id("username")).sendKeys("newUser");
 		driver.findElement(By.id("password")).sendKeys("pass123");
 		driver.findElement(By.id("password_two")).sendKeys("pass123");
 		driver.findElement(By.name("btn_save")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//now try to login in "Login Page"
 		driver.findElement(By.name("username")).sendKeys("newUser");
 		driver.findElement(By.name("password")).sendKeys("pass123");
 		driver.findElement(By.name("btn_login")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//verify that user login succesfully
 		assertThat(driver.getTitle()).isEqualTo(".::. Crowdfunding .::.");
@@ -165,7 +165,7 @@ public class UserWebControllerE2E {
 		driver.findElement(By.name("username")).sendKeys("NotPresent");
 		driver.findElement(By.name("password")).sendKeys("aPassword");
 		driver.findElement(By.name("btn_login")).click();
-		Thread.sleep(500);
+		Thread.sleep(1500);
 		
 		//verify that page not change
 		assertThat(driver.getTitle()).isEqualTo("Login .::. Crowdfunding");
